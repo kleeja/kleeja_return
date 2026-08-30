@@ -1,0 +1,6 @@
+﻿name = Kleeja Return
+desc:en = The new style developed by Kleeja Team in 2026
+desc:ar = الطراز الجديد الذي طوره فريق «كليجا» في عام 2026
+copyright = 2026 Kleeja.net
+version = 1.0
+kleeja_version = 3.2.4
