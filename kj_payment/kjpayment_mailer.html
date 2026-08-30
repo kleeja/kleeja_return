@@ -1,0 +1,29 @@
+<div class="mx-auto w-full max-w-md">
+
+    <header class="k-reveal k-reveal-1 mb-6 text-center">
+        <span class="k-auth-icon"><i class="icon-mail"></i></span>
+        <h1 class="k-title mt-4 text-xl">{olang.KJP_MAIL_INFO_1}</h1>
+    </header>
+
+    <IF NAME="fileName">
+        <div class="k-reveal k-reveal-2 k-solid mb-4 p-4">
+            <p class="k-label"><i class="icon-file-text"></i>{olang.KJP_FILE_INFO}</p>
+            <p class="k-break text-sm font-semibold text-fg">{fileName}</p>
+        </div>
+    </IF>
+
+    <form action="{FormAction}" method="POST" class="k-reveal k-reveal-3 k-card k-spot p-6" data-spotlight>
+
+        <label class="k-field" for="buyerMail">
+            <span class="k-label"><i class="icon-at-sign"></i>{olang.KJP_MAIL}</span>
+            <input type="email" name="buyerMail" id="buyerMail" required
+                   class="k-input k-input-ltr" placeholder="{olang.KJP_MAIL}">
+            <span class="mt-1.5 block text-xs text-faint">{olang.KJP_MAIL_INFO_2}</span>
+        </label>
+
+        <button type="submit" name="sendMail" value="1" class="k-btn k-btn-primary k-btn-block">
+            <i class="icon-send"></i>
+            {olang.KJP_MAIL_INFO_1}
+        </button>
+    </form>
+</div>

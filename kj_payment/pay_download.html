@@ -1,0 +1,84 @@
+<header class="k-reveal k-reveal-1 mb-6">
+    <span class="k-eyebrow mb-3"><i class="icon-shopping-bag"></i>{olang.KJP_BUY}</span>
+    <h1 class="k-title k-break">{title}</h1>
+</header>
+
+<IF NAME="config.kjp_active_subscriptions">
+    <div class="k-reveal k-reveal-2 k-alert k-alert-info mb-5">
+        <span>{olang.KJP_THERW_IS_SUBSCRIPE}</span>
+    </div>
+</IF>
+
+<div class="grid gap-5 lg:grid-cols-5">
+
+    <!-- ---------------------------- file facts ---------------------------- -->
+    <section class="k-reveal k-reveal-2 k-card overflow-hidden lg:col-span-3">
+        <dl class="m-0">
+            <div class="k-listrow">
+                <dt><i class="icon-file-text"></i>{lang.FILENAME}</dt>
+                <dd class="k-break max-w-[60%]">{name}</dd>
+            </div>
+            <div class="k-listrow">
+                <dt><i class="icon-paperclip"></i>{lang.FILETYPE}</dt>
+                <dd class="k-break">{type}</dd>
+            </div>
+            <div class="k-listrow">
+                <dt><i class="icon-hard-drive"></i>{lang.FILESIZE}</dt>
+                <dd>{size}</dd>
+            </div>
+            <div class="k-listrow">
+                <dt><i class="icon-calendar"></i>{lang.FILEDATE}</dt>
+                <dd>{time}</dd>
+            </div>
+            <div class="k-listrow">
+                <dt><i class="icon-download"></i>{lang.FILEUPS}</dt>
+                <dd>{uploads}</dd>
+            </div>
+            <div class="k-listrow">
+                <dt><i class="icon-circle-dollar-sign"></i>{olang.KJP_PRC}</dt>
+                <dd class="k-money">{price} {config.kjp_iso_currency_code}</dd>
+            </div>
+
+            <IF NAME="fusername">
+                <div class="k-listrow">
+                    <dt><i class="icon-user"></i>{lang.USERNAME}</dt>
+                    <dd><a href="{userfolder}" class="k-link">{fusername}</a></dd>
+                </div>
+            </IF>
+        </dl>
+
+        <div class="border-t px-4 py-3 text-center" style="border-color: var(--k-line);">
+            <a href="{REPORT}" rel="nofollow" class="inline-flex items-center gap-1.5 text-xs text-faint no-underline transition-colors hover:text-danger">
+                <i class="icon-flag"></i>
+                {lang.FILEREPORT}
+            </a>
+        </div>
+    </section>
+
+    <!-- ---------------------------- purchase box --------------------------- -->
+    <section class="k-reveal k-reveal-3 k-card k-spot flex flex-col justify-center p-7 text-center lg:col-span-2" data-spotlight>
+
+        <span class="k-auth-icon"><i class="icon-shopping-bag"></i></span>
+
+        <p class="k-label mt-5 justify-center">{olang.KJP_PRC}</p>
+        <p class="k-money text-3xl">{price} {config.kjp_iso_currency_code}</p>
+
+        <hr class="k-divider my-6">
+
+        <form action="{FormAction}" method="POST" class="grid gap-3 text-start">
+            <label class="block" for="kjp_method">
+                <span class="k-label"><i class="icon-credit-card"></i>{olang.KJP_PAY_MTHD}</span>
+                <select class="k-input" name="method" id="kjp_method">
+                    <LOOP NAME="payment_methods">
+                        <option value="{{method}}">{{name}}</option>
+                    </LOOP>
+                </select>
+            </label>
+
+            <button type="submit" name="buy_file" value="1" class="k-btn k-btn-primary k-btn-lg k-btn-block">
+                <i class="icon-shopping-bag"></i>
+                {olang.KJP_BUY}
+            </button>
+        </form>
+    </section>
+</div>

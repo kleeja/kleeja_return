@@ -1,0 +1,32 @@
+<div class="mx-auto w-full max-w-md">
+
+    <header class="k-reveal k-reveal-1 mb-6 text-center">
+        <span class="k-auth-icon"><i class="icon-wallet"></i></span>
+        <h1 class="k-title mt-4">{olang.KJP_CHRG_ACNT}</h1>
+    </header>
+
+    <form method="POST" action="{formAction}" class="k-reveal k-reveal-2 k-card k-spot p-6 sm:p-7" data-spotlight>
+
+        <label class="k-field" for="charge_amount">
+            <span class="k-label"><i class="icon-coins"></i>{olang.KJP_CHRG_AMNT}</span>
+            <input type="number" name="charge_amount" id="charge_amount" min="1" step="any"
+                   class="k-input k-input-ltr" required>
+        </label>
+
+        <label class="k-field" for="charge_method">
+            <span class="k-label"><i class="icon-credit-card"></i>{olang.KJP_CHRG_MTHD}</span>
+            <select name="charge_method" id="charge_method" class="k-input">
+                <LOOP NAME="payMethods">
+                    <option value="{{value}}">{{name}}</option>
+                </LOOP>
+            </select>
+        </label>
+
+        {kjFormKeyPost}
+
+        <button type="submit" name="start_charge" value="1" class="k-btn k-btn-primary k-btn-block">
+            <i class="icon-wallet"></i>
+            {olang.KJP_CHRG}
+        </button>
+    </form>
+</div>

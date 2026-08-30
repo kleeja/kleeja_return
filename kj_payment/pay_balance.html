@@ -1,0 +1,25 @@
+<div class="mx-auto w-full max-w-md">
+
+    <div class="k-reveal k-reveal-1 k-card k-spot overflow-hidden text-center" data-spotlight>
+
+        <div class="p-7">
+            <span class="k-auth-icon"><i class="icon-wallet"></i></span>
+
+            <p class="k-label mt-5 justify-center">{olang.KJP_PY_4}</p>
+            <p class="text-lg font-bold text-fg">{payAction}</p>
+
+            <hr class="k-divider my-5">
+
+            <p class="k-label justify-center">{olang.KJP_PRC}</p>
+            <p class="k-money text-3xl">{itemPrice}</p>
+        </div>
+
+        <form method="POST" action="{FormAction}" class="border-t p-6" style="border-color: var(--k-line); background: var(--k-sunken);">
+            {kjFormKeyPost}
+            <button type="submit" name="buy_item" value="1" class="k-btn k-btn-primary k-btn-lg k-btn-block">
+                <i class="icon-badge-check"></i>
+                {payAction}
+            </button>
+        </form>
+    </div>
+</div>

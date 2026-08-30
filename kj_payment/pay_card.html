@@ -1,0 +1,32 @@
+<div class="mx-auto w-full max-w-md">
+
+    <div class="k-reveal k-reveal-1 k-card k-spot p-7 text-center" data-spotlight>
+
+        <span class="k-auth-icon"><i class="icon-credit-card"></i></span>
+
+        <h1 class="k-title mt-5 text-xl">{payAction}</h1>
+
+        <p class="k-subtitle mx-auto max-w-sm">{olang.KJP_NOTE_4_BYR}</p>
+
+        <hr class="k-divider my-6">
+
+        <div class="k-chip k-chip-brand mb-5">
+            <i class="icon-shield"></i>
+            Stripe
+        </div>
+
+        <!-- Stripe Checkout injects its own button into this form -->
+        <form action="{FormAction}" method="POST" class="k-stripe-form">
+            <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="{stripe_publishable_key}"
+                data-amount="{paymentAmount}"
+                data-name="{storeName}"
+                data-description="Made By Kleeja ( kj_payment ) Plugin"
+                data-image="{storeIcon}"
+                data-locale="auto"
+                data-currency="{paymentCurrency}">
+            </script>
+        </form>
+    </div>
+</div>

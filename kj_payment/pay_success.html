@@ -1,0 +1,65 @@
+<div class="mx-auto w-full max-w-lg">
+
+    <IF NAME="down_link">
+
+        <div class="k-reveal k-reveal-1 k-card k-spot overflow-hidden text-center" data-spotlight>
+
+            <div class="p-7">
+                <span class="k-auth-icon k-success-icon"><i class="icon-circle-check"></i></span>
+                <h1 class="k-title mt-5 text-xl">{olang.KJP_SCES_PAY}</h1>
+
+                <p class="k-label mt-5 justify-center">{olang.KJP_FILE_NAME}</p>
+                <p class="k-break text-base font-bold text-fg">{file_name}</p>
+            </div>
+
+            <IF NAME="showMailForm">
+
+                <!-- the buyer still has to tell us where to send the link -->
+                <form action="{FormAction}" method="POST" class="border-t p-6 text-start" style="border-color: var(--k-line); background: var(--k-sunken);">
+                    <p class="mb-4 text-sm font-bold text-fg">{olang.KJP_MAIL_INFO_1}</p>
+
+                    <label class="k-field" for="buyerMail">
+                        <span class="k-label"><i class="icon-at-sign"></i>{olang.KJP_MAIL}</span>
+                        <input type="email" name="buyerMail" id="buyerMail" required
+                               class="k-input k-input-ltr" placeholder="{olang.KJP_MAIL}">
+                        <span class="mt-1.5 block text-xs text-faint">{olang.KJP_MAIL_INFO_2}</span>
+                    </label>
+
+                    <button type="submit" name="sendMail" value="1" class="k-btn k-btn-primary k-btn-block">
+                        <i class="icon-send"></i>
+                        {olang.KJP_MAIL_INFO_1}
+                    </button>
+                </form>
+
+            <ELSE>
+
+                <div class="border-t p-6" style="border-color: var(--k-line); background: var(--k-sunken);">
+                    <p class="mb-1 text-sm text-muted">{olang.KJP_DOWN_INFO_1}</p>
+                    <p class="mb-5 text-xs text-faint">{olang.KJP_DOWN_INFO_2}</p>
+
+                    <a href="{down_link}" target="_blank" class="k-btn k-btn-primary k-btn-lg k-btn-block">
+                        <i class="icon-download"></i>
+                        {lang.CLICK_DOWN}
+                    </a>
+                </div>
+
+            </IF>
+        </div>
+
+    <ELSE>
+
+        <!-- a subscription or paid group was joined, there is no file to fetch -->
+        <div class="k-reveal k-reveal-1 k-card k-spot p-8 text-center" data-spotlight>
+            <span class="k-auth-icon k-success-icon"><i class="icon-circle-check"></i></span>
+            <h1 class="k-title mt-5 text-xl">{olang.KJP_SCES_PAY}</h1>
+
+            <hr class="k-divider my-6">
+
+            <p class="text-base font-semibold text-fg-soft">
+                {olang.KJP_JUIN_SUCCESS}
+                <IF NAME="groupName"><span class="k-chip k-chip-brand ms-1"><i class="icon-crown"></i>{groupName}</span></IF>
+            </p>
+        </div>
+
+    </IF>
+</div>

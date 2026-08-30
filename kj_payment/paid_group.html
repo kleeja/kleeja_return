@@ -1,0 +1,61 @@
+<header class="k-reveal k-reveal-1 mb-6">
+    <span class="k-eyebrow mb-3"><i class="icon-crown"></i>{olang.KJP_PID_GRP}</span>
+    <h1 class="k-title">{olang.KJP_PID_GRP}</h1>
+</header>
+
+<IF NAME="PaidGroups">
+
+    <div class="k-reveal k-reveal-2 k-card mb-5 overflow-hidden">
+        <div class="k-table-wrap">
+            <table class="k-table">
+                <thead>
+                    <tr>
+                        <th scope="col">{olang.KJP_GRP_NAME}</th>
+                        <th scope="col">{olang.KJP_JOIN_PRICE}</th>
+                        <th scope="col">{olang.KJP_GRP_JOIN_LNK}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <LOOP NAME="PaidGroups">
+                        <tr>
+                            <th scope="row">
+                                <span class="inline-flex items-center gap-2">
+                                    <i class="icon-crown text-brand opacity-70"></i>
+                                    {{name}}
+                                </span>
+                            </th>
+                            <td class="k-money">{{price}} {config.kjp_iso_currency_code}</td>
+                            <td>
+                                <form action="{FormAction}" method="POST" class="flex flex-wrap items-center gap-2">
+                                    <select class="k-input w-auto min-w-32 py-1.5 text-xs" name="method">
+                                        {MethodOption}
+                                    </select>
+                                    <input type="hidden" name="group_id" value="{{id}}">
+                                    <button type="submit" name="join_grp" value="1" class="k-btn k-btn-primary px-3 py-1.5 text-xs">
+                                        <i class="icon-badge-check"></i>
+                                        {olang.KJP_JUIN}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </LOOP>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="k-reveal k-reveal-3 k-alert k-alert-info">
+        <span>
+            {olang.KJP_GRP_INFO}
+            <a href="./go.php?go=guide" class="k-link ms-1">{lang.GUIDE}</a>
+        </span>
+    </div>
+
+<ELSE>
+
+    <div class="k-card mx-auto max-w-lg p-10 text-center">
+        <span class="k-auth-icon"><i class="icon-crown"></i></span>
+        <p class="mt-4 text-sm text-muted">{olang.KJP_GRP_INFO}</p>
+    </div>
+
+</IF>

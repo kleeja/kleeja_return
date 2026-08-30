@@ -1,0 +1,49 @@
+<header class="k-reveal k-reveal-1 mb-6">
+    <span class="k-eyebrow mb-3"><i class="icon-shopping-bag"></i>{olang.KJP_BOUGHT_FILES}</span>
+    <h1 class="k-title">{olang.KJP_BOUGHT_FILES}</h1>
+</header>
+
+<IF NAME="havePayments">
+
+    <div class="k-reveal k-reveal-2 k-card overflow-hidden">
+        <div class="k-table-wrap">
+            <table class="k-table">
+                <thead>
+                    <tr>
+                        <th scope="col">{olang.KJP_PAY_ID}</th>
+                        <th scope="col">{lang.FILENAME}</th>
+                        <th scope="col">{olang.KJP_PAY_AMNT}</th>
+                        <th scope="col">{olang.KJP_DATE_TIME}</th>
+                        <th scope="col">{lang.DOWNLOAD_F}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <LOOP NAME="myPayments">
+                        <tr>
+                            <th scope="row">{{ID}}</th>
+                            <td class="k-break">{{FILE}}</td>
+                            <td class="k-money">{{AMOUNT}}</td>
+                            <td class="whitespace-nowrap text-xs text-muted">{{DATE_TIME}}</td>
+                            <td>
+                                <a href="{{DOWN_LINK}}" target="_blank" class="k-btn k-btn-outline px-3 py-1.5 text-xs">
+                                    <i class="icon-download"></i>
+                                    {lang.CLICK_DOWN}
+                                </a>
+                            </td>
+                        </tr>
+                    </LOOP>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {page_nums}
+
+<ELSE>
+
+    <div class="k-card mx-auto max-w-lg p-10 text-center">
+        <span class="k-auth-icon"><i class="icon-shopping-bag"></i></span>
+        <p class="mt-4 text-sm text-muted">{olang.KJP_NO_BOUGHT_FILES}</p>
+    </div>
+
+</IF>

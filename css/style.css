@@ -1938,3 +1938,150 @@ html:not(.k-js) [data-reveal] {
 .k-upbox-preview:hover .k-upbox-preview-zoom {
     opacity: 1;
 }
+
+/* ------------------------------------------------------------------ *
+ * 16. Data tables (used by the kj_payment plugin pages)
+ * ------------------------------------------------------------------ */
+
+/* wrapper keeps wide tables scrolling inside themselves on phones */
+.k-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.k-table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.8125rem;
+}
+
+.k-table thead th {
+    position: sticky;
+    top: 0;
+    padding: 0.75rem 1rem;
+    text-align: start;
+    white-space: nowrap;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--k-muted);
+    background: var(--k-sunken);
+    border-bottom: 1px solid var(--k-line);
+}
+
+.k-table tbody td,
+.k-table tbody th {
+    padding: 0.8rem 1rem;
+    text-align: start;
+    font-weight: 500;
+    color: var(--k-fg-soft);
+    border-bottom: 1px solid var(--k-line);
+    vertical-align: middle;
+}
+
+.k-table tbody th {
+    font-weight: 700;
+    color: var(--k-fg);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.k-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.k-table tbody tr:hover {
+    background: var(--k-brand-soft);
+}
+
+.k-table tbody tr:last-child td,
+.k-table tbody tr:last-child th {
+    border-bottom: 0;
+}
+
+/* row state colouring, driven by the payout STATE field */
+.k-row-danger th:first-child,
+.k-row-warn th:first-child,
+.k-row-info th:first-child,
+.k-row-success th:first-child {
+    border-inline-start: 3px solid transparent;
+}
+
+.k-row-danger th:first-child {
+    border-inline-start-color: var(--k-danger);
+}
+.k-row-warn th:first-child {
+    border-inline-start-color: var(--k-warn);
+}
+.k-row-info th:first-child {
+    border-inline-start-color: var(--k-info);
+}
+.k-row-success th:first-child {
+    border-inline-start-color: var(--k-success);
+}
+
+/* price / money emphasis */
+.k-money {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--k-brand);
+    white-space: nowrap;
+}
+
+/* tab bar rendered as links rather than buttons (my_kj_payment) */
+.k-tab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    flex: none;
+    border-radius: 0.75rem;
+    color: var(--k-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s var(--k-ease);
+}
+
+.k-tab-link:hover {
+    color: var(--k-brand);
+    transform: translateY(-1px);
+}
+
+.k-tab-link-active {
+    background: var(--k-surface);
+    color: var(--k-brand);
+    box-shadow: var(--k-shadow-sm);
+}
+
+/* ------------------------------------------------------------------ *
+ * 17. Menu icons contributed by plugins
+ * ------------------------------------------------------------------ */
+
+[data-menu='charge_account'] .k-mi::before {
+    content: '\e204'; /* wallet */
+}
+[data-menu='my_kj_payment'] .k-mi::before {
+    content: '\e47d'; /* circle-dollar-sign */
+}
+[data-menu='my_payments'] .k-mi::before {
+    content: '\e3d3'; /* receipt */
+}
+[data-menu='bought_files'] .k-mi::before {
+    content: '\e15b'; /* shopping-bag */
+}
+[data-menu='paid_group'] .k-mi::before {
+    content: '\e1d6'; /* crown */
+}
+[data-menu='subscription'] .k-mi::before {
+    content: '\e20f'; /* ticket */
+}

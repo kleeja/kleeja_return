@@ -1,0 +1,44 @@
+<header class="k-reveal k-reveal-1 mb-6">
+    <span class="k-eyebrow mb-3"><i class="icon-receipt"></i>{olang.KJP_MY_PAYS}</span>
+    <h1 class="k-title">{olang.KJP_MY_PAYS}</h1>
+</header>
+
+<IF NAME="havePayments">
+
+    <div class="k-reveal k-reveal-2 k-card overflow-hidden">
+        <div class="k-table-wrap">
+            <table class="k-table">
+                <thead>
+                    <tr>
+                        <th scope="col">{olang.KJP_PAY_ID}</th>
+                        <th scope="col">{olang.KJP_PAY_MTHD}</th>
+                        <th scope="col">{olang.KJP_PAY_AMNT}</th>
+                        <th scope="col">{olang.KJP_ACTION}</th>
+                        <th scope="col">{olang.KJP_DATE_TIME}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <LOOP NAME="payments">
+                        <tr>
+                            <th scope="row">{{ID}}</th>
+                            <td><span class="k-chip"><i class="icon-credit-card"></i>{{METHOD}}</span></td>
+                            <td class="k-money">{{AMOUNT}}</td>
+                            <td>{{ACTION}}</td>
+                            <td class="whitespace-nowrap text-xs text-muted">{{DATE_TIME}}</td>
+                        </tr>
+                    </LOOP>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {page_nums}
+
+<ELSE>
+
+    <div class="k-card mx-auto max-w-lg p-10 text-center">
+        <span class="k-auth-icon"><i class="icon-receipt"></i></span>
+        <p class="mt-4 text-sm text-muted">{olang.KJP_NO_FL_PMNT}</p>
+    </div>
+
+</IF>
