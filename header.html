@@ -1,102 +1,659 @@
-
 <!DOCTYPE html>
-<html lang="{lang.LANG_SMALL_NAME}" dir="{dir}">
+<html lang="{lang.LANG_SMALL_NAME}" dir="{dir}" class="k-boot">
 <head>
     <meta charset="{charset}">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="author" content="Kleeja.net">
+    <meta name="theme-color" content="#F45B69">
+    <meta name="color-scheme" content="light dark">
 
-    <title>{title}(title? - :){config.sitename}</title>
+    <title>{title}(title? &mdash; :){config.sitename}</title>
 
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    <link rel="icon" type="image/gif" href="images/favicon.gif" />
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
-    <link rel="apple-touch-startup-image" href="images/iPhone.png" />
+    <link rel="icon" type="image/png" href="{STYLE_PATH}images/logo.png">
+    <link rel="apple-touch-icon" href="{STYLE_PATH}images/logo.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{STYLE_PATH}css/bootstrap.min.css" rel="stylesheet">
-    <link href="{STYLE_PATH}css/stylesheet.css" rel="stylesheet">
+    <link rel="stylesheet" href="{STYLE_PATH}css/lucide.css">
+    <link rel="stylesheet" href="{STYLE_PATH}css/style.css">
 
-    <IF NAME="lang.DIR==rtl">
-        <style type="text/css">
-            body{font-family: "Tahoma",Arial,sans-serif;}
-            body{
-                direction: rtl; /* placing it here fixes the issue with jquery white page bug */
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<IGNORE>
+    <script>
+        /* Resolve the theme before first paint so dark mode never flashes. */
+        (function () {
+            try {
+                var saved = localStorage.getItem('kleeja-theme');
+                var dark = saved
+                    ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (dark) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <style type="text/tailwindcss">
+        @import 'tailwindcss';
+
+        /* class-based dark mode, toggled on <html> */
+        @custom-variant dark (&:where(.dark, .dark *));
+
+        /* Map Tailwind's palette onto the runtime tokens from css/style.css so
+           every utility follows the active theme. */
+        @theme inline {
+            --font-sans:
+                'Plus Jakarta Sans', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui,
+                -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+
+            --color-canvas: var(--k-canvas);
+            --color-surface: var(--k-surface);
+            --color-elevated: var(--k-elevated);
+            --color-sunken: var(--k-sunken);
+            --color-line: var(--k-line);
+            --color-line-strong: var(--k-line-strong);
+
+            --color-fg: var(--k-fg);
+            --color-fg-soft: var(--k-fg-soft);
+            --color-muted: var(--k-muted);
+            --color-faint: var(--k-faint);
+
+            --color-brand: var(--k-brand);
+            --color-brand-hover: var(--k-brand-hover);
+            --color-on-brand: var(--k-on-brand);
+            --color-brand-soft: var(--k-brand-soft);
+
+            --color-success: var(--k-success);
+            --color-success-soft: var(--k-success-soft);
+            --color-danger: var(--k-danger);
+            --color-danger-soft: var(--k-danger-soft);
+            --color-warn: var(--k-warn);
+            --color-warn-soft: var(--k-warn-soft);
+            --color-info: var(--k-info);
+            --color-info-soft: var(--k-info-soft);
+
+            --shadow-soft: var(--k-shadow);
+            --shadow-lift: var(--k-shadow-lg);
+            --shadow-glow: var(--k-glow);
+            --shadow-glass: var(--k-glass-shadow);
+
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @layer components {
+            /* ---------------------------------------------------------- *
+             * Surfaces
+             * ---------------------------------------------------------- */
+
+            .k-glass {
+                background: var(--k-glass);
+                border: 1px solid var(--k-glass-line);
+                -webkit-backdrop-filter: blur(18px) saturate(180%);
+                backdrop-filter: blur(18px) saturate(180%);
+                box-shadow: var(--k-glass-shadow);
             }
-        </style>
-        <link rel="stylesheet" type="text/css" media="all" href="{STYLE_PATH}css/bootstrap.rtl.min.css" />
-    </IF>
 
+            .k-card {
+                @apply rounded-2xl;
+                background: var(--k-glass);
+                border: 1px solid var(--k-glass-line);
+                -webkit-backdrop-filter: blur(18px) saturate(180%);
+                backdrop-filter: blur(18px) saturate(180%);
+                box-shadow: var(--k-glass-shadow);
+                transition:
+                    transform 0.35s var(--k-ease),
+                    box-shadow 0.35s var(--k-ease),
+                    border-color 0.35s ease;
+            }
 
-    <script type="text/javascript">
-        <!--
-        var LANG_PAST_URL_HERE = "{lang.PAST_URL_HERE}";
-        var LANG_MORE_F_FILES = "{lang.MORE_F_FILES}";
-        var STYLE_PATH  = "{STYLE_PATH}";
-        -->
+            .k-card-lift:hover {
+                transform: translateY(-4px);
+                border-color: var(--k-brand-ring);
+                box-shadow: var(--k-shadow-lg);
+            }
+
+            .k-solid {
+                @apply rounded-2xl;
+                background: var(--k-surface);
+                border: 1px solid var(--k-line);
+                box-shadow: var(--k-shadow-sm);
+            }
+
+            .k-divider {
+                @apply my-4 h-px w-full border-0;
+                background: linear-gradient(
+                    to var(--k-to, right),
+                    transparent,
+                    var(--k-line),
+                    transparent
+                );
+            }
+
+            /* ---------------------------------------------------------- *
+             * Typography
+             * ---------------------------------------------------------- */
+
+            .k-title {
+                @apply text-2xl font-extrabold tracking-tight text-fg sm:text-3xl;
+            }
+
+            .k-subtitle {
+                @apply mt-1.5 text-sm text-muted;
+            }
+
+            .k-eyebrow {
+                @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase;
+                background: var(--k-brand-soft);
+                color: var(--k-brand);
+            }
+
+            .k-gradient-text {
+                background: linear-gradient(
+                    100deg,
+                    var(--k-brand) 0%,
+                    var(--k-brand-400) 45%,
+                    #ff9a5b 100%
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            /* ---------------------------------------------------------- *
+             * Buttons
+             * ---------------------------------------------------------- */
+
+            .k-btn {
+                @apply relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-2.5 text-sm font-semibold whitespace-nowrap select-none;
+                border: 1px solid transparent;
+                transition:
+                    transform 0.25s var(--k-ease),
+                    box-shadow 0.25s var(--k-ease),
+                    background-color 0.2s ease,
+                    border-color 0.2s ease,
+                    color 0.2s ease;
+            }
+
+            .k-btn:disabled,
+            .k-btn[aria-disabled='true'] {
+                @apply pointer-events-none opacity-55;
+            }
+
+            /* light sweep across any button on hover */
+            .k-btn::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                transform: translateX(-120%) skewX(-18deg);
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.32),
+                    transparent
+                );
+                transition: transform 0.7s var(--k-ease);
+                pointer-events: none;
+            }
+
+            .k-btn:hover::after {
+                transform: translateX(120%) skewX(-18deg);
+            }
+
+            .k-btn-primary {
+                background: linear-gradient(135deg, var(--k-brand) 0%, var(--k-brand-hover) 100%);
+                color: var(--k-on-brand);
+                box-shadow: var(--k-glow);
+            }
+
+            .k-btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow:
+                    var(--k-glow),
+                    0 14px 34px -10px var(--k-brand-ring);
+            }
+
+            .k-btn-primary:active {
+                transform: translateY(0);
+            }
+
+            .k-btn-outline {
+                border-color: var(--k-line-strong);
+                background: var(--k-glass);
+                color: var(--k-fg-soft);
+                -webkit-backdrop-filter: blur(12px);
+                backdrop-filter: blur(12px);
+            }
+
+            .k-btn-outline:hover {
+                transform: translateY(-2px);
+                border-color: var(--k-brand);
+                color: var(--k-brand);
+                box-shadow: var(--k-shadow);
+            }
+
+            .k-btn-ghost {
+                color: var(--k-muted);
+            }
+
+            .k-btn-ghost:hover {
+                background: var(--k-brand-soft);
+                color: var(--k-brand);
+            }
+
+            .k-btn-danger {
+                border-color: color-mix(in oklab, var(--k-danger) 35%, transparent);
+                background: var(--k-danger-soft);
+                color: var(--k-danger);
+            }
+
+            .k-btn-danger:hover {
+                transform: translateY(-2px);
+                background: var(--k-danger);
+                color: #fff;
+                box-shadow: 0 10px 26px -10px var(--k-danger);
+            }
+
+            .k-btn-lg {
+                @apply rounded-2xl px-7 py-3.5 text-base;
+            }
+
+            .k-btn-block {
+                @apply w-full;
+            }
+
+            /* square icon-only button */
+            .k-iconbtn {
+                @apply relative inline-grid h-10 w-10 cursor-pointer place-items-center rounded-xl text-base;
+                border: 1px solid var(--k-glass-line);
+                background: var(--k-glass);
+                color: var(--k-fg-soft);
+                -webkit-backdrop-filter: blur(12px);
+                backdrop-filter: blur(12px);
+                transition:
+                    transform 0.25s var(--k-ease),
+                    color 0.2s ease,
+                    border-color 0.2s ease,
+                    box-shadow 0.25s ease;
+            }
+
+            .k-iconbtn:hover {
+                transform: translateY(-2px);
+                border-color: var(--k-brand);
+                color: var(--k-brand);
+                box-shadow: var(--k-shadow);
+            }
+
+            /* ---------------------------------------------------------- *
+             * Forms
+             * ---------------------------------------------------------- */
+
+            .k-field {
+                @apply mb-4 block;
+            }
+
+            .k-label {
+                @apply mb-1.5 flex items-center gap-1.5 text-xs font-semibold tracking-wide text-muted uppercase;
+            }
+
+            .k-input {
+                @apply block w-full rounded-xl px-3.5 py-2.5 text-sm;
+                border: 1px solid var(--k-line);
+                background: var(--k-surface);
+                color: var(--k-fg);
+                transition:
+                    border-color 0.2s ease,
+                    box-shadow 0.25s ease,
+                    background-color 0.2s ease;
+            }
+
+            .k-input::placeholder {
+                color: var(--k-faint);
+            }
+
+            .k-input:hover:not(:disabled):not([readonly]) {
+                border-color: var(--k-line-strong);
+            }
+
+            .k-input:focus {
+                outline: none;
+                border-color: var(--k-brand);
+                box-shadow: 0 0 0 4px var(--k-brand-soft);
+            }
+
+            .k-input:disabled,
+            .k-input[readonly] {
+                background: var(--k-sunken);
+                color: var(--k-muted);
+            }
+
+            .k-input-ltr {
+                direction: ltr;
+                text-align: start;
+            }
+
+            textarea.k-input {
+                @apply resize-y leading-relaxed;
+                min-height: 3rem;
+            }
+
+            select.k-input {
+                @apply cursor-pointer appearance-none bg-no-repeat pe-9;
+                background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+                background-position:
+                    calc(100% - 20px) calc(50% + 2px),
+                    calc(100% - 15px) calc(50% + 2px);
+                background-size:
+                    5px 5px,
+                    5px 5px;
+            }
+
+            [dir='rtl'] select.k-input {
+                background-position:
+                    15px calc(50% + 2px),
+                    20px calc(50% + 2px);
+            }
+
+            /* ---------------------------------------------------------- *
+             * Alerts
+             * ---------------------------------------------------------- */
+
+            .k-alert {
+                @apply flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm;
+                border: 1px solid transparent;
+            }
+
+            .k-alert::before {
+                font-family: 'lucide';
+                font-style: normal;
+                @apply mt-0.5 text-base leading-none;
+            }
+
+            .k-alert-info {
+                border-color: color-mix(in oklab, var(--k-info) 25%, transparent);
+                background: var(--k-info-soft);
+                color: var(--k-info);
+            }
+
+            .k-alert-info::before {
+                content: '\e0f9';
+            }
+
+            .k-alert-success {
+                border-color: color-mix(in oklab, var(--k-success) 25%, transparent);
+                background: var(--k-success-soft);
+                color: var(--k-success);
+            }
+
+            .k-alert-success::before {
+                content: '\e226';
+            }
+
+            .k-alert-warn {
+                border-color: color-mix(in oklab, var(--k-warn) 25%, transparent);
+                background: var(--k-warn-soft);
+                color: var(--k-warn);
+            }
+
+            .k-alert-warn::before {
+                content: '\e193';
+            }
+
+            .k-alert-danger {
+                border-color: color-mix(in oklab, var(--k-danger) 25%, transparent);
+                background: var(--k-danger-soft);
+                color: var(--k-danger);
+            }
+
+            .k-alert-danger::before {
+                content: '\e077';
+            }
+
+            /* ---------------------------------------------------------- *
+             * Navigation
+             * ---------------------------------------------------------- */
+
+            .k-navlink {
+                @apply relative inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold whitespace-nowrap;
+                color: var(--k-muted);
+                transition:
+                    color 0.2s ease,
+                    background-color 0.2s ease,
+                    transform 0.2s var(--k-ease);
+            }
+
+            .k-navlink:hover {
+                color: var(--k-brand);
+                background: var(--k-brand-soft);
+                transform: translateY(-1px);
+            }
+
+            .k-navlink-active {
+                color: var(--k-brand);
+                background: var(--k-brand-soft);
+            }
+
+            .k-navlink-active::after {
+                content: '';
+                position: absolute;
+                bottom: 0.15rem;
+                inset-inline-start: 50%;
+                width: 1.1rem;
+                height: 2px;
+                border-radius: 999px;
+                background: var(--k-brand);
+                transform: translateX(-50%);
+            }
+
+            [dir='rtl'] .k-navlink-active::after {
+                transform: translateX(50%);
+            }
+
+            .k-dropdown {
+                @apply absolute z-50 mt-2 min-w-56 overflow-hidden rounded-2xl p-1.5;
+                inset-inline-end: 0;
+                background: var(--k-glass-strong);
+                border: 1px solid var(--k-glass-line);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                backdrop-filter: blur(20px) saturate(180%);
+                box-shadow: var(--k-shadow-lg);
+                animation: k-pop-in 0.22s var(--k-ease);
+            }
+
+            .k-dropdown-item {
+                @apply flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium;
+                color: var(--k-fg-soft);
+                text-decoration: none;
+                transition:
+                    background-color 0.18s ease,
+                    color 0.18s ease,
+                    padding-inline-start 0.18s var(--k-ease);
+            }
+
+            .k-dropdown-item:hover {
+                background: var(--k-brand-soft);
+                color: var(--k-brand);
+                padding-inline-start: 1rem;
+            }
+
+            /* ---------------------------------------------------------- *
+             * Bits and pieces
+             * ---------------------------------------------------------- */
+
+            .k-chip {
+                @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+                border: 1px solid var(--k-line);
+                background: var(--k-sunken);
+                color: var(--k-fg-soft);
+            }
+
+            .k-chip-brand {
+                border-color: color-mix(in oklab, var(--k-brand) 30%, transparent);
+                background: var(--k-brand-soft);
+                color: var(--k-brand);
+            }
+
+            .k-listrow {
+                @apply flex items-center justify-between gap-4 px-4 py-3 text-sm;
+                border-bottom: 1px solid var(--k-line);
+                transition: background-color 0.2s ease;
+            }
+
+            .k-listrow:last-child {
+                border-bottom: 0;
+            }
+
+            .k-listrow:hover {
+                background: var(--k-brand-soft);
+            }
+
+            .k-listrow dt,
+            .k-listrow .k-listrow-key {
+                @apply flex items-center gap-2 font-medium text-muted;
+            }
+
+            .k-listrow dd,
+            .k-listrow .k-listrow-val {
+                @apply m-0 text-end font-semibold text-fg;
+            }
+        }
+    </style>
+</IGNORE>
+
+    <script>
+        /* Strings the front-end scripts need, pulled from the active language. */
+        var KLEEJA_STYLE_PATH = "{STYLE_PATH}";
+        var KLEEJA_LANG = {};
+        KLEEJA_LANG.NO_FILE_SELECTED = "{lang.NO_FILE_SELECTED}";
+        KLEEJA_LANG.WRONG_F_NAME     = "{lang.WRONG_F_NAME}";
+        KLEEJA_LANG.FORBID_EXT       = "{lang.FORBID_EXT}";
+        KLEEJA_LANG.SIZE_F_BIG       = "{lang.SIZE_F_BIG}";
+        KLEEJA_LANG.ARE_YOU_SURE     = "{lang.ARE_YOU_SURE_DO_THIS}";
+        KLEEJA_LANG.MORE_F_FILES     = "{lang.MORE_F_FILES}";
+        KLEEJA_LANG.OPEN             = "{lang.OPEN}";
+        KLEEJA_LANG.WAIT_LOADING     = "{lang.WAIT_LOADING}";
     </script>
 
     <!-- Extra code -->
     {EXTRA_CODE_META}
 </head>
-<body>
+<body class="flex min-h-screen flex-col font-sans antialiased">
 
-    <!-- header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-inverse">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#TopMenuNavbar" aria-controls="TopMenuNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!-- ambient backdrop -->
+    <div class="k-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="k-grain" aria-hidden="true"></div>
 
-        <a class="navbar-brand" href="{config.siteurl}">
-            <img src="{STYLE_PATH}images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="{username}">
-            {config.sitename}
-        </a>
+    <!-- reading progress -->
+    <div id="k-progress" aria-hidden="true"><span></span></div>
 
-        <div class="collapse navbar-collapse" id="TopMenuNavbar">
-            <ul class="navbar-nav">
-                <LOOP NAME="top_menu">
-                    <IF LOOP="show">
-                        <li class="nav-item"><a href="{{url}}" class="nav-link(go_current=={{name}}? active:)">{{title}}</a></li>
-                    </IF>
-                </LOOP>
-            </ul>
+    <a href="#k-main" class="k-skip" data-i18n="skip">Skip to content</a>
+
+    <!-- ============================ header ============================ -->
+    <header id="k-header" class="sticky top-0 z-40">
+        <div class="k-header-bar">
+            <div class="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+
+                <!-- brand -->
+                <a href="{config.siteurl}" class="k-brand group">
+                    <span class="k-brand-mark">
+                        <img src="{STYLE_PATH}images/logo.png" alt="" class="k-logo k-logo-light">
+                        <img src="{STYLE_PATH}images/logo-light.png" alt="" class="k-logo k-logo-dark">
+                    </span>
+                    <span class="k-brand-name">{config.sitename}</span>
+                </a>
+
+                <!-- desktop navigation -->
+                <nav class="hidden flex-1 items-center justify-center gap-1 lg:flex" data-i18n-label="mainNav">
+                    <LOOP NAME="top_menu">
+                        <IF LOOP="show">
+                            <a href="{{url}}" data-menu="{{name}}" class="k-navlink(go_current=={{name}}? k-navlink-active:)">
+                                <i class="k-mi text-[0.95rem] opacity-70"></i>
+                                <span>{{title}}</span>
+                            </a>
+                        </IF>
+                    </LOOP>
+                </nav>
+
+                <div class="ms-auto flex items-center gap-2 lg:ms-0">
+
+                    <!-- theme switch -->
+                    <button type="button" id="k-theme-toggle" class="k-iconbtn" data-i18n-label="theme" data-i18n-title="theme">
+                        <i class="icon-sun k-theme-icon-light"></i>
+                        <i class="icon-moon k-theme-icon-dark"></i>
+                    </button>
+
+                    <!-- user menu -->
+                    <div class="relative" data-dropdown>
+                        <button type="button" class="k-userchip" data-dropdown-trigger aria-expanded="false" aria-haspopup="true">
+                            <IF NAME="user_is">
+                                <img src="{user_avatar}" alt="" class="h-7 w-7 shrink-0 rounded-full object-cover">
+                            <ELSE>
+                                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full text-brand" style="background: var(--k-brand-soft);">
+                                    <i class="icon-user text-sm"></i>
+                                </span>
+                            </IF>
+                            <span class="hidden max-w-36 truncate text-sm font-semibold sm:block">{username}</span>
+                            <i class="icon-chevron-down text-xs opacity-60 transition-transform duration-300" data-dropdown-caret></i>
+                        </button>
+
+                        <div class="k-dropdown" data-dropdown-panel hidden>
+                            <IF NAME="user_is">
+                                <div class="px-3 pt-2 pb-1">
+                                    <p class="truncate text-sm font-bold text-fg">{username}</p>
+                                    <p class="truncate text-xs text-faint">{userinfo.mail}</p>
+                                </div>
+                                <hr class="k-divider my-1.5">
+                            </IF>
+
+                            <LOOP NAME="side_menu">
+                                <IF LOOP="show">
+                                    <a href="{{url}}" data-menu="{{name}}" class="k-dropdown-item(go_current=={{name}}? k-dropdown-item-active:)">
+                                        <i class="k-mi opacity-70"></i>
+                                        <span>{{title}}</span>
+                                    </a>
+                                </IF>
+                            </LOOP>
+
+                            <IF NAME="admin_page">
+                                <hr class="k-divider my-1.5">
+                                <div class="k-dropdown-item k-admin-link">{admin_page}</div>
+                            </IF>
+                        </div>
+                    </div>
+
+                    <!-- mobile menu trigger -->
+                    <button type="button" id="k-menu-toggle" class="k-iconbtn lg:hidden" aria-expanded="false" aria-controls="k-mobile-menu" data-i18n-label="menu">
+                        <i class="icon-menu k-menu-icon-open"></i>
+                        <i class="icon-x k-menu-icon-close"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </nav>
 
-    <!-- use related menu -->
-    <nav class="navbar navbar-expand-lg bg-light navbar-light">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <span class="navbar-brand">
-            <img src="{STYLE_PATH}images/user.png" width="26" height="26" class="d-inline-block align-top" alt="{username}">
-        </span>
-
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav">
-                <LOOP NAME="side_menu">
-                    <IF LOOP="show">
-                        <li class="nav-item"><a href="{{url}}" class="nav-link(go_current=={{name}}? active:)">{{title}}</a></li>
-                    </IF>
-                </LOOP>
-            </ul>
-            <IF NAME="user_is">
-            <span class="navbar-text">
-               {username}
-            </span>
-            </IF>
+        <!-- mobile navigation -->
+        <div id="k-mobile-menu" class="k-mobile-menu lg:hidden" hidden>
+            <div class="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6">
+                <nav class="grid gap-1 sm:grid-cols-2">
+                    <LOOP NAME="top_menu">
+                        <IF LOOP="show">
+                            <a href="{{url}}" data-menu="{{name}}" class="k-dropdown-item(go_current=={{name}}? k-dropdown-item-active:)">
+                                <i class="k-mi opacity-70"></i>
+                                <span>{{title}}</span>
+                            </a>
+                        </IF>
+                    </LOOP>
+                </nav>
+            </div>
         </div>
-    </nav>
+    </header>
 
+    <!-- ============================ content =========================== -->
+    <main id="k-main" class="mx-auto w-full max-w-7xl flex-1 px-4 pt-8 pb-14 sm:px-6 lg:px-8">
 
-
-    <div class="container mt-4">
-
-
-    <IF NAME="extras.header">
-        <div class="extras_header mb-5">{extras.header}</div>
-    </IF>
-
-
-
+        <IF NAME="extras.header">
+            <div class="k-card k-prose mb-6 p-5">{extras.header}</div>
+        </IF>

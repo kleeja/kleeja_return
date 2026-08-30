@@ -1,6 +1,12 @@
-
-<div class="alert alert-danger">
-    {text}
-    <br>
-    <a href="javascript:history.go(-1)" class="alert-link">{go_back_browser}</a>
+<div class="k-reveal k-reveal-1 mx-auto w-full max-w-2xl">
+    <div class="k-alert k-alert-danger">
+        <div class="min-w-0">
+            <div class="k-prose text-sm">{text}</div>
+            <a href="javascript:history.go(-1)" class="k-btn k-btn-outline mt-4">
+                <i class="icon-arrow-left rtl:hidden"></i>
+                <i class="icon-arrow-right hidden rtl:inline-block"></i>
+                {go_back_browser}
+            </a>
+        </div>
+    </div>
 </div>

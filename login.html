@@ -1,81 +1,68 @@
+<div class="mx-auto w-full max-w-md">
 
+    <header class="k-reveal k-reveal-1 mb-6 text-center">
+        <span class="k-auth-icon"><i class="icon-log-in"></i></span>
+        <h1 class="k-title mt-4">{title}</h1>
+        <p class="k-subtitle">{lang.USER_LOGIN}</p>
+    </header>
 
-<div class="mt-3 mb-3">
-    <h2>{title}</h2>
-    <p class="text-muted">{lang.USER_LOGIN}</p>
-</div>
-
-
-
-<!-- error messages -->
-<IF NAME="ERRORS">
-    <div class="alert alert-danger">
-        <ul>
-            <LOOP NAME="ERRORS">
-                <li>{%value%}</li>
-            </LOOP>
-        </ul>
-    </div>
-</IF>
-
-
-<form action="{action}" method="post" name="login_form">
-
-    <div class="form-group">
-        <label for="lname">{lang.USERNAME}</label>
-        <input type="text" class="form-control" id="lname"  name="lname" value="{t_lname}" >
-    </div>
-
-
-
-    <div class="form-group">
-        <label for="lpass">{lang.PASSWORD}</label>
-        <input type="password" class="form-control" id="lpass"  name="lpass" value="{t_lpass}" >
-    </div>
-
-
-
-    <label class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="remme" name="remme" value="31536000" checked="checked">
-        <label class="custom-control-label" for="remme">{lang.REMME} </label>
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description"><small class="text-muted">({lang.REMME_EXP})</small></span>
-    </label>
-
-
-    <!-- verification code -->
-    <IF NAME="config.enable_captcha==1">
-
-        <div class="form-group safe_code">
-            <label for="kleeja_code_answer" class=" control-label">{lang.VERTY_CODE}</label>
-            <div class="">
-                <img style="vertical-align:middle;"
-                     id="kleeja_img_captcha"
-                     src="{captcha_file_path}"
-                     alt="{lang.REFRESH_CAPTCHA}"
-                     title="{lang.REFRESH_CAPTCHA}"
-                     onclick="javascript:update_kleeja_captcha('{captcha_file_path}', 'kleeja_code_answer');" />
-
-                <input type="text" name="kleeja_code_answer" class="form-control" style="max-width: 300px" autocomplete="false" id="kleeja_code_answer" aria-describedby="kleeja_code_answer_help"/>
-                <small id="helpBlock" id="kleeja_code_answer_help" class="form-text text-muted">{lang.NOTE_CODE}</small>
-            </div>
+    <IF NAME="ERRORS">
+        <div class="k-reveal k-reveal-2 k-alert k-alert-danger mb-4">
+            <ul class="m-0 grid list-none gap-1 p-0">
+                <LOOP NAME="ERRORS">
+                    <li>{%value%}</li>
+                </LOOP>
+            </ul>
         </div>
-
     </IF>
 
-    {H_FORM_KEYS}
+    <form action="{action}" method="post" name="login_form" class="k-reveal k-reveal-3 k-card k-spot p-6 sm:p-7" data-spotlight>
 
+        <label class="k-field" for="lname">
+            <span class="k-label"><i class="icon-user"></i>{lang.USERNAME}</span>
+            <input type="text" class="k-input" id="lname" name="lname" value="{t_lname}" autocomplete="username" autofocus>
+        </label>
 
-    <div class="row justify-content-between mt-3">
-        <div class="col col-md-auto">
-            <input type="submit" name="submit" value="{lang.LOGIN}" class="btn btn-primary" />
-        </div>
+        <label class="k-field" for="lpass">
+            <span class="k-label"><i class="icon-lock"></i>{lang.PASSWORD}</span>
+            <span class="k-password">
+                <input type="password" class="k-input pe-11" id="lpass" name="lpass" value="{t_lpass}" autocomplete="current-password">
+                <button type="button" class="k-password-toggle" data-toggle-password="lpass" tabindex="-1">
+                    <i class="icon-eye"></i>
+                    <i class="icon-eye-off"></i>
+                </button>
+            </span>
+        </label>
 
-        <div class="col col-md-auto">
-            <a href="{forget_pass_link}">{lang.LOSS_PASSWORD}</a>
-        </div>
-    </div>
-</form>
+        <label class="mb-4 flex cursor-pointer items-center gap-2.5 text-sm text-fg-soft">
+            <input type="checkbox" class="k-check" id="remme" name="remme" value="31536000" checked="checked">
+            <span>{lang.REMME} <span class="text-xs text-faint">({lang.REMME_EXP})</span></span>
+        </label>
 
+        <!-- verification code -->
+        <IF NAME="config.enable_captcha==1">
+            <div class="k-solid mb-4 p-4">
+                <p class="k-label"><i class="icon-shield"></i>{lang.VERTY_CODE}</p>
+                <div class="flex flex-wrap items-center gap-3">
+                    <img id="kleeja_img_captcha" src="{captcha_file_path}"
+                         data-captcha-src="{captcha_file_path}" data-captcha-input="kleeja_code_answer"
+                         alt="{lang.REFRESH_CAPTCHA}" title="{lang.REFRESH_CAPTCHA}" class="k-captcha-img">
+                    <input type="text" name="kleeja_code_answer" id="kleeja_code_answer"
+                           autocomplete="off" class="k-input k-input-ltr max-w-56 flex-1">
+                </div>
+                <p class="mt-2 text-xs text-faint">{lang.NOTE_CODE}</p>
+            </div>
+        </IF>
 
+        {H_FORM_KEYS}
 
+        <button type="submit" name="submit" value="{lang.LOGIN}" class="k-btn k-btn-primary k-btn-block">
+            <i class="icon-log-in"></i>
+            {lang.LOGIN}
+        </button>
+
+        <p class="mt-4 text-center text-sm">
+            <a href="{forget_pass_link}" class="k-link">{lang.LOSS_PASSWORD}</a>
+        </p>
+    </form>
+</div>

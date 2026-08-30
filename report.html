@@ -1,94 +1,77 @@
+<div class="mx-auto w-full max-w-2xl">
 
+    <header class="k-reveal k-reveal-1 mb-6">
+        <span class="k-eyebrow mb-3"><i class="icon-flag"></i>{lang.REPORT}</span>
+        <h1 class="k-title">{title}</h1>
+    </header>
 
-<div class="mt-3 mb-3">
-    <h2>{title}</h2>
-</div>
+    <IF NAME="ERRORS">
+        <div class="k-reveal k-reveal-2 k-alert k-alert-danger mb-4">
+            <ul class="m-0 grid list-none gap-1 p-0">
+                <LOOP NAME="ERRORS">
+                    <li>{%value%}</li>
+                </LOOP>
+            </ul>
+        </div>
+    </IF>
 
-
-
-<!-- error messages -->
-<IF NAME="ERRORS">
-<div class="alert alert-danger">
-    <ul>
-    <LOOP NAME="ERRORS">
-        <li>{%value%}</li>
-    </LOOP>
-    </ul>
-</div>
-</IF>
-
-
-
-<form action="{action}" method="post">
-
+    <form action="{action}" method="post" class="k-reveal k-reveal-3 k-card k-spot p-6 sm:p-7" data-spotlight>
 
         <IF NAME="NOT_USER">
+            <div class="grid gap-x-4 sm:grid-cols-2">
+                <label class="k-field" for="rname">
+                    <span class="k-label"><i class="icon-user"></i>{lang.YOURNAME}</span>
+                    <input type="text" class="k-input" id="rname" name="rname" value="{t_rname}" autocomplete="name">
+                </label>
 
-            <div class="form-group">
-                <label for="rname">{lang.YOURNAME}</label>
-                <input type="text" class="form-control" id="rname"  name="rname" value="{t_rname}" >
+                <label class="k-field" for="rmail">
+                    <span class="k-label"><i class="icon-at-sign"></i>{lang.EMAIL}</span>
+                    <input type="email" class="k-input k-input-ltr" id="rmail" name="rmail" value="{t_rmail}" autocomplete="email">
+                </label>
             </div>
-
-            <div class="form-group">
-                <label for="rmail">{lang.EMAIL}</label>
-                <input type="email" class="form-control" id="rmail" name="rmail" value="{t_rmail}" style="direction:ltr">
-            </div>
-
         </IF>
-
-
 
         <IF NAME="id_d">
-
-            <div class="form-group">
-                <label for="rurl">{lang.FILENAME}</label>
-                <input type="text" class="form-control" id="rurl"  name="rurl" value="{filename_for_show}" readonly="readonly">
-            </div>
-
+            <label class="k-field" for="rurl">
+                <span class="k-label"><i class="icon-file-text"></i>{lang.FILENAME}</span>
+                <input type="text" class="k-input" id="rurl" name="rurl" value="{filename_for_show}" readonly="readonly">
+            </label>
         <ELSE>
-
-            <div class="form-group">
-                <label for="surl">{lang.URL_F_FILE}</label>
-                <input type="text" class="form-control" id="surl"  name="surl" value="{s_url}" style="direction:ltr">
-            </div>
-
+            <label class="k-field" for="surl">
+                <span class="k-label"><i class="icon-link"></i>{lang.URL_F_FILE}</span>
+                <input type="text" class="k-input k-input-ltr" id="surl" name="surl" value="{s_url}" placeholder="https://">
+            </label>
         </IF>
 
+        <label class="k-field" for="rtext">
+            <span class="k-label"><i class="icon-message-square"></i>{lang.REASON}</span>
+            <textarea class="k-input" id="rtext" name="rtext" rows="4">{t_rtext}</textarea>
+        </label>
 
-    <div class="form-group">
-        <label for="surl">{lang.REASON}</label>
-        <textarea class="form-control" id="rtext" name="rtext" rows="3">{t_rtext}</textarea>
-    </div>
-
-    <!-- verification code -->
-    <IF NAME="config.enable_captcha==1">
-
-        <div class="form-group safe_code">
-            <label for="kleeja_code_answer" class=" control-label">{lang.VERTY_CODE}</label>
-            <div class="">
-                <img style="vertical-align:middle;"
-                     id="kleeja_img_captcha"
-                     src="{captcha_file_path}"
-                     alt="{lang.REFRESH_CAPTCHA}"
-                     title="{lang.REFRESH_CAPTCHA}"
-                     onclick="javascript:update_kleeja_captcha('{captcha_file_path}', 'kleeja_code_answer');" />
-
-                <input type="text" name="kleeja_code_answer" class="form-control" style="max-width: 300px" autocomplete="false" id="kleeja_code_answer" aria-describedby="kleeja_code_answer_help"/>
-                <small id="helpBlock" id="kleeja_code_answer_help" class="form-text text-muted">{lang.NOTE_CODE}</small>
+        <!-- verification code -->
+        <IF NAME="config.enable_captcha==1">
+            <div class="k-solid mb-4 p-4">
+                <p class="k-label"><i class="icon-shield"></i>{lang.VERTY_CODE}</p>
+                <div class="flex flex-wrap items-center gap-3">
+                    <img id="kleeja_img_captcha" src="{captcha_file_path}"
+                         data-captcha-src="{captcha_file_path}" data-captcha-input="kleeja_code_answer"
+                         alt="{lang.REFRESH_CAPTCHA}" title="{lang.REFRESH_CAPTCHA}" class="k-captcha-img">
+                    <input type="text" name="kleeja_code_answer" id="kleeja_code_answer"
+                           autocomplete="off" class="k-input k-input-ltr max-w-56 flex-1">
+                </div>
+                <p class="mt-2 text-xs text-faint">{lang.NOTE_CODE}</p>
             </div>
-        </div>
+        </IF>
 
-    </IF>
+        <IF NAME="id_d">
+            <input name="rid" value="{id_d}" type="hidden">
+        </IF>
 
-    <IF NAME="id_d">
-        <input name="rid" value="{id_d}" type="hidden" />
-    </IF>
+        {H_FORM_KEYS}
 
-    {H_FORM_KEYS}
-
-    <div class="form-group">
-        <input type="submit" name="submit" value="{lang.REPORT}" class="btn btn-primary"/>
-    </div>
-
-</form>
-
+        <button type="submit" name="submit" value="{lang.REPORT}" class="k-btn k-btn-primary">
+            <i class="icon-flag"></i>
+            {lang.REPORT}
+        </button>
+    </form>
+</div>

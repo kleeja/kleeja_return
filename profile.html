@@ -1,124 +1,137 @@
+<div class="mx-auto w-full max-w-2xl">
 
-<div class="mt-3 mb-3">
-    <h2>{title}</h2>
-    <p class="text-muted">{lang.EDIT_U_DATA}</p>
+    <header class="k-reveal k-reveal-1 mb-6">
+        <span class="k-eyebrow mb-3"><i class="icon-settings"></i>{lang.PROFILE}</span>
+        <h1 class="k-title">{title}</h1>
+        <p class="k-subtitle">{lang.EDIT_U_DATA}</p>
+    </header>
+
+    <IF NAME="ERRORS">
+        <div class="k-reveal k-reveal-2 k-alert k-alert-danger mb-4">
+            <ul class="m-0 grid list-none gap-1 p-0">
+                <LOOP NAME="ERRORS">
+                    <li>{%value%}</li>
+                </LOOP>
+            </ul>
+        </div>
+    </IF>
+
+    <IF NAME="data_forum">
+
+        <form action="{action}" method="post" class="k-reveal k-reveal-3 k-card k-spot overflow-hidden" data-spotlight>
+
+            <div class="k-tabs" data-tabs>
+
+                <div class="k-tablist" role="tablist">
+                    <button type="button" class="k-tab is-active" role="tab" data-tab-btn="tab-general">
+                        <i class="icon-user"></i><span>{lang.EDIT_U_DATA}</span>
+                    </button>
+                    <button type="button" class="k-tab" role="tab" data-tab-btn="tab-email">
+                        <i class="icon-at-sign"></i><span>{lang.EMAIL}</span>
+                    </button>
+                    <button type="button" class="k-tab" role="tab" data-tab-btn="tab-password">
+                        <i class="icon-lock"></i><span>{lang.PASS_ON_CHANGE}</span>
+                    </button>
+                    <button type="button" class="k-tab" role="tab" data-tab-btn="tab-avatar">
+                        <i class="icon-image"></i><span>{lang.EDIT_U_AVATER}</span>
+                    </button>
+                </div>
+
+                <div class="p-6 sm:p-7">
+
+                    <!-- account -->
+                    <div role="tabpanel" data-tab-panel="tab-general">
+                        <div class="mb-5 flex items-center gap-4">
+                            <img src="{user_avatar}" alt="" class="h-14 w-14 rounded-2xl object-cover" style="box-shadow: 0 0 0 3px var(--k-brand-ring);">
+                            <div class="min-w-0">
+                                <p class="truncate text-base font-bold text-fg">{name}</p>
+                                <p class="truncate text-xs text-faint">{mail}</p>
+                            </div>
+                        </div>
+
+                        <label class="k-field" for="uname">
+                            <span class="k-label"><i class="icon-user"></i>{lang.USERNAME}</span>
+                            <input type="text" class="k-input" id="uname" value="{name}" readonly>
+                        </label>
+
+                        <label class="k-field" for="show_my_filecp">
+                            <span class="k-label"><i class="icon-eye"></i>{lang.SHOW_MY_FILECP}</span>
+                            <select class="k-input" id="show_my_filecp" name="show_my_filecp">
+                                <option value="1" <IF NAME="show_my_filecp==1">selected="selected"</IF>>{lang.YES}</option>
+                                <option value="0" <IF NAME="show_my_filecp==0">selected="selected"</IF>>{lang.NO}</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <!-- email -->
+                    <div role="tabpanel" data-tab-panel="tab-email" hidden>
+                        <label class="k-field" for="pppass_old">
+                            <span class="k-label"><i class="icon-lock"></i>{lang.PASSWORD}</span>
+                            <input type="password" class="k-input" id="pppass_old" name="pppass_old" value="{t_pppass_old}" autocomplete="current-password">
+                            <span class="mt-1.5 block text-xs text-faint">{lang.EMAIL_CHANGE_REQ_PASS}</span>
+                        </label>
+
+                        <label class="k-field" for="pmail">
+                            <span class="k-label"><i class="icon-at-sign"></i>{lang.EMAIL}</span>
+                            <input type="email" class="k-input k-input-ltr" id="pmail" name="pmail" value="{mail}" autocomplete="email">
+                        </label>
+                    </div>
+
+                    <!-- password -->
+                    <div role="tabpanel" data-tab-panel="tab-password" hidden>
+                        <label class="k-field" for="ppass_old">
+                            <span class="k-label"><i class="icon-lock"></i>{lang.OLD}</span>
+                            <input type="password" class="k-input" id="ppass_old" name="ppass_old" value="{t_ppass_old}" autocomplete="current-password">
+                        </label>
+
+                        <label class="k-field" for="ppass_new">
+                            <span class="k-label"><i class="icon-key"></i>{lang.NEW}</span>
+                            <span class="k-password">
+                                <input type="password" class="k-input pe-11" id="ppass_new" name="ppass_new" value="{t_ppass_new}" autocomplete="new-password">
+                                <button type="button" class="k-password-toggle" data-toggle-password="ppass_new" tabindex="-1">
+                                    <i class="icon-eye"></i>
+                                    <i class="icon-eye-off"></i>
+                                </button>
+                            </span>
+                        </label>
+
+                        <label class="k-field" for="ppass_new2">
+                            <span class="k-label"><i class="icon-key"></i>{lang.NEW_AGAIN}</span>
+                            <input type="password" class="k-input" id="ppass_new2" name="ppass_new2" value="{t_ppass_new2}" autocomplete="new-password">
+                        </label>
+                    </div>
+
+                    <!-- avatar -->
+                    <div role="tabpanel" data-tab-panel="tab-avatar" hidden>
+                        <div class="flex flex-col items-center gap-4 text-center">
+                            <img src="{user_avatar}" alt="" class="h-24 w-24 rounded-3xl object-cover" style="box-shadow: 0 0 0 4px var(--k-brand-ring);">
+                            <div class="k-prose text-sm">{link_avater}</div>
+                        </div>
+                    </div>
+
+                    {H_FORM_KEYS}
+
+                    <hr class="k-divider my-6">
+
+                    <button type="submit" name="submit_data" value="{lang.EDIT_U_DATA}" class="k-btn k-btn-primary k-btn-block sm:w-auto">
+                        <i class="icon-check"></i>
+                        {lang.EDIT_U_DATA}
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    <ELSE>
+
+        <!-- users come from an integrated forum (phpBB, vBulletin, ...) -->
+        <div class="k-reveal k-reveal-3 k-card p-8 text-center">
+            <span class="k-auth-icon"><i class="icon-external-link"></i></span>
+            <p class="mt-4 mb-5 text-sm text-muted">{lang.PFILE_4_FORUM}</p>
+            <a href="{goto_forum_link}" class="k-btn k-btn-primary">
+                <i class="icon-external-link"></i>
+                {lang.PFILE_4_FORUM}
+            </a>
+        </div>
+
+    </IF>
 </div>
-
-
-
-<!-- error messages -->
-<IF NAME="ERRORS">
-    <div class="alert alert-danger">
-        <ul>
-            <LOOP NAME="ERRORS">
-                <li>{%value%}</li>
-            </LOOP>
-        </ul>
-    </div>
-</IF>
-
-
-
-<IF NAME="data_forum">
-
-    <form action="{action}" method="post">
-
-        <div class="card ">
-            <div class="card-header">
-                <ul class="nav nav-pills card-header-pills">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#generalSettings" role="tab">{lang.EDIT_U_DATA}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#emailSettings" role="tab">{lang.EMAIL}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#passwordSettings" role="tab">{lang.PASS_ON_CHANGE}</a>
-                    </li>
-                    <!--<li class="nav-item">-->
-                        <!--<a class="nav-link" data-toggle="tab" href="#avatarSettings" role="tab">{lang.EDIT_U_AVATER}</a>-->
-                    <!--</li>-->
-                </ul>
-            </div>
-            <div class="card-body tab-content">
-
-                <!-- 1st tab -->
-                <div id="generalSettings" class="tab-pane active" role="tabpanel">
-
-                    <div class="form-group">
-                        <label for="uname">{lang.USERNAME}</label>
-                        <input type="text" class="form-control col-md-4" id="uname" value="{name}" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="show_my_filecp">{lang.SHOW_MY_FILECP}</label>
-                        <select class="form-control" id="show_my_filecp" name="show_my_filecp">
-                            <option value="1" <IF NAME="show_my_filecp==1">selected="selected"</IF> >{lang.YES}</option>
-                            <option value="0" <IF NAME="show_my_filecp==0">selected="selected"</IF> >{lang.NO}</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <!-- 2nd tab -->
-                <div id="emailSettings" class="tab-pane" role="tabpanel">
-
-                    <div class="form-group">
-                        <label for="pppass_old">{lang.PASSWORD}</label>
-                        <input type="password" class="form-control" id="pppass_old" name="pppass_old" value="{t_pppass_old}" aria-describedby="emailChangeHelp">
-                        <small id="emailChangeHelp" class="form-text text-muted">{lang.EMAIL_CHANGE_REQ_PASS}</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pmail">{lang.EMAIL}</label>
-                        <input type="email" class="form-control" id="pmail"  name="pmail" value="{mail}" style="direction:ltr;">
-                    </div>
-
-
-                </div>
-
-                <!-- 3rd tab -->
-                <div id="passwordSettings" class="tab-pane" role="tabpanel">
-
-                    <div class="form-group">
-                        <label for="ppass_old">{lang.OLD}</label>
-                        <input type="password" class="form-control" id="ppass_old"  name="ppass_old" value="{t_ppass_old}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ppass_new">{lang.NEW}</label>
-                        <input type="password" class="form-control" id="ppass_new"  name="ppass_new" value="{t_ppass_new}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ppass_new2">{lang.NEW_AGAIN}</label>
-                        <input type="password" class="form-control" id="ppass_new2"  name="ppass_new2" value="{t_ppass_new2}">
-                    </div>
-
-                </div>
-
-                <!-- 4th tab -->
-                <div id="avatarSettings" class="tab-pane" role="tabpanel">
-                    {link_avater}
-                </div>
-
-            </div>
-        </div>
-
-
-        {H_FORM_KEYS}
-
-        <div class="form-group mt-3">
-            <input type="submit" name="submit_data" value="{lang.EDIT_U_DATA}" class="btn btn-outline-primary btn-lg"/>
-        </div>
-
-    </form>
-
-
-
-<ELSE>
-
-    <!-- in case of user system integration like phpBB or VB -->
-    <a href="{goto_forum_link}" class="btn btn-outline-primary">{lang.PFILE_4_FORUM}</a>
-
-</IF>

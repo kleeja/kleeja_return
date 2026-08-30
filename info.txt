@@ -1,6 +1,27 @@
-﻿name = Kleeja Return
-desc:en = The new style developed by Kleeja Team in 2026
-desc:ar = الطراز الجديد الذي طوره فريق «كليجا» في عام 2026
+#
+# Configuration file for the "Kleeja Return" style.
+# Keep this file free of a byte-order mark: the parser splits each line on
+# the first "=", and a BOM would become part of the first key.
+#
+
+#Style name
+name = Kleeja Return
+
+#Style desc
+desc:en = A modern, glassy Tailwind CSS style with light and dark modes, built by the Kleeja team
+desc:ar = ستايل عصري بتأثير زجاجي مبني على Tailwind CSS، يدعم الوضعين الفاتح والداكن، من تطوير فريق كليجا
+
+#Style copyright
 copyright = 2026 Kleeja.net
+
+#Version of style
 version = 1.0
+
+#Min. required version of kleeja
 kleeja_version = 3.2.4
+
+#name of the style required by this style
+#depend_on = default
+
+#plugins required to install this style
+#plugins_required = test, test2

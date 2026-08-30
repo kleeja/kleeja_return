@@ -1,0 +1,1940 @@
+/*!
+ * Kleeja Return — core stylesheet
+ * Design tokens, base paint, ambience & third-party markup overrides.
+ * Tailwind utilities + components live in the <style type="text/tailwindcss">
+ * block inside header.html.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Design tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+    color-scheme: light;
+
+    /* brand ramp — built around #F45B69 */
+    --k-brand-50: #fff1f2;
+    --k-brand-100: #ffe0e3;
+    --k-brand-200: #fdc7cc;
+    --k-brand-300: #fba3ab;
+    --k-brand-400: #f77c88;
+    --k-brand-500: #f45b69;
+    --k-brand-600: #e03d4d;
+    --k-brand-700: #bc2b3a;
+    --k-brand-800: #9c2733;
+    --k-brand-900: #832631;
+    --k-brand-950: #480f16;
+
+    /* logo ink — the navy from images/logo.png */
+    --k-ink: #0d2340;
+
+    /* semantic surfaces */
+    --k-canvas: #f4f5f9;
+    --k-surface: #ffffff;
+    --k-elevated: #ffffff;
+    --k-sunken: #edeff5;
+    --k-line: #e2e5ee;
+    --k-line-strong: #cdd2e0;
+
+    /* type */
+    --k-fg: #0d2340;
+    --k-fg-soft: #33455f;
+    --k-muted: #64708a;
+    --k-faint: #94a0b8;
+
+    /* brand aliases */
+    --k-brand: #f45b69;
+    --k-brand-hover: #e03d4d;
+    --k-on-brand: #ffffff;
+    --k-brand-soft: rgba(244, 91, 105, 0.1);
+    --k-brand-ring: rgba(244, 91, 105, 0.35);
+
+    /* status */
+    --k-success: #16a34a;
+    --k-success-soft: rgba(22, 163, 74, 0.1);
+    --k-danger: #dc2626;
+    --k-danger-soft: rgba(220, 38, 38, 0.1);
+    --k-warn: #d97706;
+    --k-warn-soft: rgba(217, 119, 6, 0.12);
+    --k-info: #2563eb;
+    --k-info-soft: rgba(37, 99, 235, 0.1);
+
+    /* glass */
+    --k-glass: rgba(255, 255, 255, 0.8);
+    --k-glass-strong: rgba(255, 255, 255, 0.86);
+    --k-glass-line: rgba(255, 255, 255, 0.9);
+    --k-glass-shadow: 0 8px 32px -8px rgba(13, 35, 64, 0.14);
+
+    /* elevation */
+    --k-shadow-sm: 0 1px 2px rgba(13, 35, 64, 0.06), 0 1px 3px rgba(13, 35, 64, 0.05);
+    --k-shadow: 0 4px 16px -4px rgba(13, 35, 64, 0.1), 0 2px 6px -2px rgba(13, 35, 64, 0.07);
+    --k-shadow-lg: 0 24px 48px -16px rgba(13, 35, 64, 0.2), 0 8px 20px -8px rgba(13, 35, 64, 0.12);
+    --k-glow: 0 8px 26px -8px rgba(244, 91, 105, 0.55);
+
+    /* ambience */
+    --k-aurora-1: rgba(244, 91, 105, 0.34);
+    --k-aurora-2: rgba(88, 116, 214, 0.2);
+    --k-aurora-3: rgba(255, 149, 92, 0.22);
+    --k-aurora-alpha: 0.45;
+
+    --k-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root.dark {
+    color-scheme: dark;
+
+    --k-ink: #e9edf5;
+
+    --k-canvas: #070b14;
+    --k-surface: #0e1524;
+    --k-elevated: #161e30;
+    --k-sunken: #0a101c;
+    --k-line: #1e2941;
+    --k-line-strong: #2c3a56;
+
+    --k-fg: #e9edf5;
+    --k-fg-soft: #c3ccdc;
+    --k-muted: #8e9bb3;
+    --k-faint: #64718b;
+
+    --k-brand: #ff6b78;
+    --k-brand-hover: #ff8590;
+    --k-on-brand: #2a070c;
+    --k-brand-soft: rgba(255, 107, 120, 0.14);
+    --k-brand-ring: rgba(255, 107, 120, 0.4);
+
+    --k-success: #4ade80;
+    --k-success-soft: rgba(74, 222, 128, 0.12);
+    --k-danger: #ff6467;
+    --k-danger-soft: rgba(255, 100, 103, 0.14);
+    --k-warn: #fbbf24;
+    --k-warn-soft: rgba(251, 191, 36, 0.14);
+    --k-info: #60a5fa;
+    --k-info-soft: rgba(96, 165, 250, 0.12);
+
+    --k-glass: rgba(14, 21, 36, 0.62);
+    --k-glass-strong: rgba(14, 21, 36, 0.84);
+    --k-glass-line: rgba(255, 255, 255, 0.08);
+    --k-glass-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.6);
+
+    --k-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --k-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
+    --k-shadow-lg: 0 24px 48px -16px rgba(0, 0, 0, 0.7);
+    --k-glow: 0 8px 26px -8px rgba(255, 107, 120, 0.5);
+
+    --k-aurora-1: rgba(244, 91, 105, 0.3);
+    --k-aurora-2: rgba(70, 104, 200, 0.24);
+    --k-aurora-3: rgba(255, 122, 60, 0.2);
+    --k-aurora-alpha: 0.85;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Boot guard — Tailwind compiles in the browser, so hold the first
+ *    paint until it lands (hard capped in js/kleeja.js).
+ * ------------------------------------------------------------------ */
+
+html.k-boot body {
+    opacity: 0;
+}
+
+body {
+    opacity: 1;
+    transition: opacity 0.24s ease;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Base paint — correct colours on the very first frame
+ * ------------------------------------------------------------------ */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--k-canvas);
+    color: var(--k-fg);
+    font-family:
+        'Plus Jakarta Sans', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system,
+        'Segoe UI', Tahoma, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+[dir='rtl'] body {
+    font-family:
+        'IBM Plex Sans Arabic', 'Plus Jakarta Sans', ui-sans-serif, system-ui, Tahoma, Arial,
+        sans-serif;
+}
+
+::selection {
+    background: var(--k-brand);
+    color: var(--k-on-brand);
+}
+
+:focus-visible {
+    outline: 2px solid var(--k-brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--k-line-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--k-line-strong);
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--k-brand);
+    background-clip: content-box;
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Icon font alignment (lucide.css supplies the glyphs)
+ * ------------------------------------------------------------------ */
+
+[class^='icon-'],
+[class*=' icon-'] {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: -0.125em;
+    flex: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Ambient aurora backdrop
+ * ------------------------------------------------------------------ */
+
+.k-aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: var(--k-aurora-alpha);
+}
+
+.k-aurora span {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    filter: blur(90px);
+    will-change: transform;
+}
+
+.k-aurora span:nth-child(1) {
+    inset-inline-start: -10%;
+    top: -14%;
+    width: 46vw;
+    height: 46vw;
+    min-width: 320px;
+    min-height: 320px;
+    background: var(--k-aurora-1);
+    animation: k-drift-a 26s var(--k-ease) infinite alternate;
+}
+
+.k-aurora span:nth-child(2) {
+    inset-inline-end: -12%;
+    top: 6%;
+    width: 40vw;
+    height: 40vw;
+    min-width: 280px;
+    min-height: 280px;
+    background: var(--k-aurora-2);
+    animation: k-drift-b 32s var(--k-ease) infinite alternate;
+}
+
+.k-aurora span:nth-child(3) {
+    inset-inline-start: 28%;
+    bottom: -20%;
+    width: 44vw;
+    height: 44vw;
+    min-width: 300px;
+    min-height: 300px;
+    background: var(--k-aurora-3);
+    animation: k-drift-c 38s var(--k-ease) infinite alternate;
+}
+
+/* fine grain so the gradients never band */
+.k-grain {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root.dark .k-grain {
+    opacity: 0.05;
+}
+
+@keyframes k-drift-a {
+    to {
+        transform: translate3d(8vw, 6vh, 0) scale(1.15);
+    }
+}
+
+@keyframes k-drift-b {
+    to {
+        transform: translate3d(-7vw, 10vh, 0) scale(1.2);
+    }
+}
+
+@keyframes k-drift-c {
+    to {
+        transform: translate3d(5vw, -8vh, 0) scale(1.1);
+    }
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. Motion helpers
+ * ------------------------------------------------------------------ */
+
+@keyframes k-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes k-pop-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes k-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes k-shimmer {
+    to {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes k-pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 var(--k-brand-ring);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(244, 91, 105, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(244, 91, 105, 0);
+    }
+}
+
+.k-reveal {
+    opacity: 0;
+    animation: k-fade-up 0.55s var(--k-ease) forwards;
+}
+
+.k-reveal-1 {
+    animation-delay: 0.05s;
+}
+.k-reveal-2 {
+    animation-delay: 0.12s;
+}
+.k-reveal-3 {
+    animation-delay: 0.19s;
+}
+.k-reveal-4 {
+    animation-delay: 0.26s;
+}
+
+.k-spin {
+    animation: k-spin 1s linear infinite;
+}
+
+.k-shimmer {
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--k-brand-soft) 45%,
+        transparent 90%
+    );
+    background-size: 200% 100%;
+    animation: k-shimmer 1.4s linear infinite;
+}
+
+/* mouse-tracked spotlight on cards */
+.k-spot {
+    position: relative;
+    isolation: isolate;
+}
+
+.k-spot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+        420px circle at var(--k-mx, 50%) var(--k-my, 0%),
+        var(--k-brand-soft),
+        transparent 65%
+    );
+}
+
+.k-spot:hover::before {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .k-aurora span,
+    .k-spin,
+    .k-shimmer {
+        animation: none !important;
+    }
+
+    .k-reveal {
+        opacity: 1;
+        animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ------------------------------------------------------------------ *
+ * 7. Server-rendered markup we do not control
+ *    ({page_nums}, {welcome_msg}, {terms_msg}, {contents}, {admin_page})
+ * ------------------------------------------------------------------ */
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    justify-content: center;
+    list-style: none;
+    margin: 2rem 0;
+    padding: 0;
+}
+
+.pagination .page-item {
+    display: block;
+}
+
+.pagination .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--k-line);
+    background: var(--k-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--k-fg-soft);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        transform 0.2s var(--k-ease),
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pagination .page-link:hover:not(.current):not(.dots) {
+    transform: translateY(-2px);
+    border-color: var(--k-brand);
+    color: var(--k-brand);
+    box-shadow: var(--k-shadow);
+}
+
+.pagination .page-link.current {
+    background: var(--k-brand);
+    border-color: transparent;
+    color: var(--k-on-brand);
+    box-shadow: var(--k-glow);
+    cursor: default;
+}
+
+.pagination .page-link.dots {
+    border-color: transparent;
+    background: transparent;
+    cursor: default;
+    min-width: 1.75rem;
+    padding: 0;
+}
+
+/* rich text injected by the admin panel */
+.k-prose {
+    color: var(--k-fg-soft);
+    line-height: 1.8;
+}
+
+.k-prose > *:first-child {
+    margin-top: 0;
+}
+
+.k-prose > *:last-child {
+    margin-bottom: 0;
+}
+
+.k-prose a {
+    color: var(--k-brand);
+    font-weight: 600;
+    text-decoration: none;
+    background-image: linear-gradient(var(--k-brand), var(--k-brand));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1.5px;
+    transition: background-size 0.3s var(--k-ease);
+}
+
+[dir='rtl'] .k-prose a {
+    background-position: 100% 100%;
+}
+
+.k-prose a:hover {
+    background-size: 100% 1.5px;
+}
+
+.k-prose h1,
+.k-prose h2,
+.k-prose h3,
+.k-prose h4 {
+    color: var(--k-fg);
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.75em 0 0.6em;
+}
+
+.k-prose h1 {
+    font-size: 1.5rem;
+}
+.k-prose h2 {
+    font-size: 1.3rem;
+}
+.k-prose h3 {
+    font-size: 1.125rem;
+}
+
+.k-prose p,
+.k-prose ul,
+.k-prose ol,
+.k-prose blockquote,
+.k-prose table {
+    margin: 0 0 1em;
+}
+
+.k-prose ul,
+.k-prose ol {
+    padding-inline-start: 1.35em;
+}
+
+.k-prose li {
+    margin-bottom: 0.4em;
+}
+
+.k-prose ul li::marker {
+    color: var(--k-brand);
+}
+
+.k-prose blockquote {
+    border-inline-start: 3px solid var(--k-brand);
+    padding: 0.25em 0 0.25em 1em;
+    padding-inline-start: 1em;
+    color: var(--k-muted);
+    font-style: italic;
+}
+
+.k-prose code {
+    background: var(--k-sunken);
+    border: 1px solid var(--k-line);
+    border-radius: 0.375rem;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+}
+
+.k-prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+}
+
+.k-prose hr {
+    border: 0;
+    border-top: 1px solid var(--k-line);
+    margin: 2em 0;
+}
+
+/* {admin_page} renders a bare <a> */
+.k-admin-link a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* {page_stats} */
+.k-stats-line {
+    color: var(--k-faint);
+    font-size: 0.75rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * 8. Form controls the browser paints itself
+ * ------------------------------------------------------------------ */
+
+input[type='checkbox'].k-check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    border: 1.5px solid var(--k-line-strong);
+    border-radius: 0.4rem;
+    background: var(--k-surface);
+    cursor: pointer;
+    position: relative;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s var(--k-ease);
+}
+
+input[type='checkbox'].k-check:hover {
+    border-color: var(--k-brand);
+}
+
+input[type='checkbox'].k-check:checked {
+    background: var(--k-brand);
+    border-color: var(--k-brand);
+}
+
+input[type='checkbox'].k-check:checked::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--k-on-brand);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+input[type='checkbox'].k-check:active {
+    transform: scale(0.9);
+}
+
+/* autofill should not blow up the dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-text-fill-color: var(--k-fg);
+    -webkit-box-shadow: 0 0 0 1000px var(--k-sunken) inset;
+    caret-color: var(--k-fg);
+    transition: background-color 9999s ease-out;
+}
+
+/* ------------------------------------------------------------------ *
+ * 9. Toasts
+ * ------------------------------------------------------------------ */
+
+.k-toaster {
+    position: fixed;
+    z-index: 90;
+    bottom: 1.25rem;
+    inset-inline-end: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.k-toast {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    max-width: min(22rem, calc(100vw - 2.5rem));
+    padding: 0.7rem 1rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--k-glass-line);
+    background: var(--k-glass-strong);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: var(--k-shadow-lg);
+    color: var(--k-fg);
+    font-size: 0.875rem;
+    font-weight: 500;
+    animation: k-pop-in 0.3s var(--k-ease);
+}
+
+.k-toast[data-tone='success'] {
+    color: var(--k-success);
+}
+
+.k-toast[data-tone='error'] {
+    color: var(--k-danger);
+}
+
+.k-toast.is-leaving {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* ------------------------------------------------------------------ *
+ * 10. Menu icons — driven by {{name}} from top_menu / side_menu
+ * ------------------------------------------------------------------ */
+
+.k-mi::before {
+    font-family: 'lucide';
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: -0.125em;
+    content: '\e412'; /* sparkles — fallback for plugin-added items */
+}
+
+[data-menu='index'] .k-mi::before {
+    content: '\e0f5';
+}
+[data-menu='rules'] .k-mi::before {
+    content: '\e45f';
+}
+[data-menu='guide'] .k-mi::before {
+    content: '\e05f';
+}
+[data-menu='stats'] .k-mi::before {
+    content: '\e2a3';
+}
+[data-menu='report'] .k-mi::before {
+    content: '\e0d1';
+}
+[data-menu='call'] .k-mi::before {
+    content: '\e10f';
+}
+[data-menu='profile'] .k-mi::before {
+    content: '\e19f';
+}
+[data-menu='fileuser'] .k-mi::before {
+    content: '\e0d7';
+}
+[data-menu='login'] .k-mi::before {
+    content: '\e10d';
+}
+[data-menu='logout'] .k-mi::before {
+    content: '\e10e';
+}
+[data-menu='register'] .k-mi::before {
+    content: '\e1a2';
+}
+
+/* ------------------------------------------------------------------ *
+ * 11. Misc
+ * ------------------------------------------------------------------ */
+
+.k-break {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+/* Kleeja's "powered by" badge is injected with inline styles; keep it
+   out of the way of the sticky footer without hiding it. */
+body > div[style*='position:fixed'] {
+    border-radius: 8px;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+}
+
+body > div[style*='position:fixed']:hover {
+    opacity: 1;
+}
+
+/* ------------------------------------------------------------------ *
+ * 12. Page chrome — header, brand, progress bar, mobile menu
+ * ------------------------------------------------------------------ */
+
+.k-skip {
+    position: absolute;
+    inset-inline-start: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1.1rem;
+    border-radius: 0.75rem;
+    background: var(--k-brand);
+    color: var(--k-on-brand);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--k-glow);
+    transition: top 0.25s var(--k-ease);
+}
+
+.k-skip:focus {
+    top: 1rem;
+}
+
+/* --- reading progress ------------------------------------------------ */
+
+#k-progress {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 60;
+    height: 2px;
+    pointer-events: none;
+}
+
+#k-progress span {
+    display: block;
+    width: var(--k-progress, 0%);
+    height: 100%;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(90deg, var(--k-brand), #ff9a5b);
+    box-shadow: 0 0 12px var(--k-brand-ring);
+    transition: width 0.1s linear;
+}
+
+[dir='rtl'] #k-progress span {
+    margin-inline-start: auto;
+    border-radius: 999px 0 0 999px;
+}
+
+/* --- sticky glass bar ------------------------------------------------ */
+
+.k-header-bar {
+    background: var(--k-glass);
+    border-bottom: 1px solid transparent;
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+#k-header.is-scrolled .k-header-bar {
+    background: var(--k-glass-strong);
+    border-bottom-color: var(--k-line);
+    box-shadow: var(--k-glass-shadow);
+}
+
+/* --- brand ----------------------------------------------------------- */
+
+.k-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex: none;
+    text-decoration: none;
+    color: var(--k-fg);
+}
+
+.k-brand-mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: none;
+    border-radius: 0.8rem;
+    background: var(--k-surface);
+    border: 1px solid var(--k-line);
+    box-shadow: var(--k-shadow-sm);
+    overflow: hidden;
+    transition:
+        transform 0.4s var(--k-ease),
+        box-shadow 0.4s var(--k-ease),
+        border-color 0.3s ease;
+}
+
+.k-brand:hover .k-brand-mark {
+    transform: translateY(-2px) rotate(-6deg) scale(1.06);
+    border-color: var(--k-brand-ring);
+    box-shadow: var(--k-glow);
+}
+
+.k-logo {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+}
+
+.k-logo-dark {
+    display: none;
+}
+
+:root.dark .k-brand-mark {
+    background: var(--k-elevated);
+}
+
+:root.dark .k-logo-light {
+    display: none;
+}
+
+:root.dark .k-logo-dark {
+    display: block;
+}
+
+.k-brand-name {
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    max-width: 11rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.25s ease;
+}
+
+.k-brand:hover .k-brand-name {
+    color: var(--k-brand);
+}
+
+@media (max-width: 480px) {
+    .k-brand-name {
+        max-width: 7.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 340px) {
+    .k-brand-name {
+        display: none;
+    }
+}
+
+/* --- user chip ------------------------------------------------------- */
+
+.k-userchip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding-inline: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--k-glass-line);
+    background: var(--k-glass);
+    color: var(--k-fg-soft);
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition:
+        transform 0.25s var(--k-ease),
+        border-color 0.2s ease,
+        box-shadow 0.25s ease,
+        color 0.2s ease;
+}
+
+.k-userchip:hover {
+    transform: translateY(-2px);
+    border-color: var(--k-brand);
+    color: var(--k-brand);
+    box-shadow: var(--k-shadow);
+}
+
+.k-userchip img,
+.k-userchip > span:first-child {
+    box-shadow: 0 0 0 2px var(--k-brand-ring);
+}
+
+[data-dropdown].is-open [data-dropdown-caret] {
+    transform: rotate(180deg);
+}
+
+.k-dropdown-item-active {
+    background: var(--k-brand-soft);
+    color: var(--k-brand);
+}
+
+/* --- theme toggle ---------------------------------------------------- */
+
+#k-theme-toggle {
+    overflow: hidden;
+}
+
+#k-theme-toggle i {
+    position: absolute;
+    transition:
+        transform 0.45s var(--k-ease),
+        opacity 0.3s ease;
+}
+
+.k-theme-icon-dark,
+:root.dark .k-theme-icon-light {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.4);
+}
+
+.k-theme-icon-light,
+:root.dark .k-theme-icon-dark {
+    opacity: 1;
+    transform: none;
+}
+
+/* --- mobile menu ----------------------------------------------------- */
+
+#k-menu-toggle i {
+    position: absolute;
+    transition:
+        transform 0.35s var(--k-ease),
+        opacity 0.25s ease;
+}
+
+.k-menu-icon-close,
+#k-menu-toggle[aria-expanded='true'] .k-menu-icon-open {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+.k-menu-icon-open,
+#k-menu-toggle[aria-expanded='true'] .k-menu-icon-close {
+    opacity: 1;
+    transform: none;
+}
+
+.k-mobile-menu {
+    overflow: hidden;
+    background: var(--k-glass-strong);
+    border-bottom: 1px solid var(--k-line);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--k-glass-shadow);
+    animation: k-slide-down 0.3s var(--k-ease);
+}
+
+@keyframes k-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* --- {admin_page} renders a bare <a>; make the whole row clickable ---- */
+
+.k-admin-link {
+    padding: 0;
+}
+
+.k-admin-link a {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.75rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.k-admin-link a::before {
+    font-family: 'lucide';
+    font-style: normal;
+    content: '\e158'; /* shield */
+    opacity: 0.7;
+}
+
+/* --- footer ---------------------------------------------------------- */
+
+.k-footer-link {
+    color: var(--k-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.k-footer-link:hover {
+    color: var(--k-brand);
+}
+
+.k-footer-bar {
+    background: var(--k-glass);
+    border-top: 1px solid var(--k-line);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+}
+
+/* {admin_page} inside a chip rather than a dropdown row */
+.k-admin-link.k-chip {
+    padding: 0;
+}
+
+.k-admin-link.k-chip a {
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    gap: 0.4rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * 13. Upload zone
+ * ------------------------------------------------------------------ */
+
+.k-drop {
+    position: relative;
+    display: block;
+    padding: 2.5rem 1.5rem;
+    border: 2px dashed var(--k-line-strong);
+    border-radius: 1.25rem;
+    background: var(--k-sunken);
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+        border-color 0.3s ease,
+        background-color 0.3s ease,
+        transform 0.35s var(--k-ease),
+        box-shadow 0.35s var(--k-ease);
+}
+
+.k-drop:hover {
+    border-color: var(--k-brand);
+    box-shadow: var(--k-shadow);
+}
+
+.k-drop:focus-within {
+    border-color: var(--k-brand);
+    box-shadow: 0 0 0 4px var(--k-brand-soft);
+}
+
+.k-drop.is-dragover {
+    border-color: var(--k-brand);
+    border-style: solid;
+    background: var(--k-brand-soft);
+    transform: scale(1.01);
+    box-shadow: var(--k-glow);
+}
+
+/* radial glow that follows the cursor across the zone */
+.k-drop-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+        340px circle at var(--k-mx, 50%) var(--k-my, 50%),
+        var(--k-brand-soft),
+        transparent 70%
+    );
+}
+
+.k-drop:hover .k-drop-glow {
+    opacity: 1;
+}
+
+.k-drop-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    height: 4.25rem;
+    margin: 0 auto;
+    border-radius: 1.25rem;
+    font-size: 1.75rem;
+    color: var(--k-on-brand);
+    background: linear-gradient(135deg, var(--k-brand) 0%, #ff9a5b 100%);
+    box-shadow: var(--k-glow);
+    transition: transform 0.45s var(--k-ease);
+}
+
+.k-drop:hover .k-drop-icon {
+    transform: translateY(-4px) scale(1.06);
+}
+
+.k-drop.is-dragover .k-drop-icon {
+    animation: k-pulse-ring 1.4s ease-out infinite;
+}
+
+.k-drop-icon-busy {
+    background: linear-gradient(135deg, var(--k-brand) 0%, var(--k-brand-hover) 100%);
+}
+
+/* the real <input type="file"> elements — reachable, just not visible */
+.k-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- selected file chips (built in js/kleeja.js) --------------------- */
+
+.k-file-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--k-line);
+    border-radius: 0.9rem;
+    background: var(--k-surface);
+    animation: k-pop-in 0.3s var(--k-ease);
+    transition:
+        border-color 0.2s ease,
+        transform 0.25s var(--k-ease);
+}
+
+.k-file-chip:hover {
+    border-color: var(--k-brand-ring);
+    transform: translateX(2px);
+}
+
+[dir='rtl'] .k-file-chip:hover {
+    transform: translateX(-2px);
+}
+
+.k-file-chip.is-invalid {
+    border-color: color-mix(in oklab, var(--k-danger) 45%, transparent);
+    background: var(--k-danger-soft);
+}
+
+.k-file-chip-icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: none;
+    border-radius: 0.7rem;
+    background: var(--k-brand-soft);
+    color: var(--k-brand);
+    overflow: hidden;
+}
+
+.k-file-chip-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.k-file-chip.is-invalid .k-file-chip-icon {
+    background: var(--k-danger-soft);
+    color: var(--k-danger);
+}
+
+.k-file-chip-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.k-file-chip-name {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--k-fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.k-file-chip-meta {
+    display: block;
+    font-size: 0.6875rem;
+    color: var(--k-muted);
+}
+
+.k-file-chip.is-invalid .k-file-chip-meta {
+    color: var(--k-danger);
+}
+
+.k-file-chip-remove {
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    flex: none;
+    border: 0;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: var(--k-faint);
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s var(--k-ease);
+}
+
+.k-file-chip-remove:hover {
+    background: var(--k-danger-soft);
+    color: var(--k-danger);
+    transform: rotate(90deg);
+}
+
+/* --- captcha --------------------------------------------------------- */
+
+.k-captcha-img {
+    height: 2.75rem;
+    border-radius: 0.65rem;
+    border: 1px solid var(--k-line);
+    background: #fff;
+    cursor: pointer;
+    transition:
+        transform 0.25s var(--k-ease),
+        border-color 0.2s ease;
+}
+
+.k-captcha-img:hover {
+    transform: scale(1.04);
+    border-color: var(--k-brand);
+}
+
+/* --- indeterminate progress ------------------------------------------ */
+
+.k-progressbar {
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--k-sunken);
+    overflow: hidden;
+}
+
+.k-progressbar span {
+    position: absolute;
+    inset-block: 0;
+    width: 40%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--k-brand), #ff9a5b);
+    animation: k-indeterminate 1.2s var(--k-ease) infinite;
+}
+
+@keyframes k-indeterminate {
+    from {
+        inset-inline-start: -40%;
+    }
+    to {
+        inset-inline-start: 100%;
+    }
+}
+
+/* --- online indicator ------------------------------------------------ */
+
+.k-online-dot {
+    position: relative;
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    flex: none;
+    border-radius: 50%;
+    background: var(--k-success);
+}
+
+.k-online-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--k-success);
+    animation: k-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes k-ping {
+    75%,
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .k-online-dot::after,
+    .k-progressbar span,
+    .k-drop.is-dragover .k-drop-icon {
+        animation: none !important;
+    }
+}
+
+/* ------------------------------------------------------------------ *
+ * 14. Utility behaviour
+ * ------------------------------------------------------------------ */
+
+/* the hidden attribute must beat any display utility on the element */
+[hidden] {
+    display: none !important;
+}
+
+/* reveal-on-scroll; visible by default so no-JS visitors lose nothing */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity 0.55s var(--k-ease),
+        transform 0.55s var(--k-ease);
+}
+
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+html:not(.k-js) [data-reveal] {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* copy buttons swap their glyph while the confirmation shows */
+.k-copy-btn .icon-check {
+    display: none;
+}
+
+.k-copy-btn.is-copied .icon-copy {
+    display: none;
+}
+
+.k-copy-btn.is-copied .icon-check {
+    display: inline-block;
+}
+
+.k-copy-btn.is-copied {
+    border-color: var(--k-success) !important;
+    color: var(--k-success) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 15. Page components
+ * ------------------------------------------------------------------ */
+
+/* --- links ----------------------------------------------------------- */
+
+.k-link {
+    color: var(--k-brand);
+    font-weight: 600;
+    text-decoration: none;
+    background-image: linear-gradient(var(--k-brand), var(--k-brand));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1.5px;
+    transition: background-size 0.3s var(--k-ease);
+}
+
+[dir='rtl'] .k-link {
+    background-position: 100% 100%;
+}
+
+.k-link:hover {
+    background-size: 100% 1.5px;
+}
+
+/* --- stat cards ------------------------------------------------------ */
+
+.k-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 1rem;
+    border-radius: 0.9rem;
+    font-size: 1.15rem;
+    color: var(--k-brand);
+    background: var(--k-brand-soft);
+    transition: transform 0.4s var(--k-ease);
+}
+
+.k-card-lift:hover .k-stat-icon {
+    transform: translateY(-3px) rotate(-8deg) scale(1.08);
+}
+
+.k-stat-icon-sm {
+    width: 2rem;
+    height: 2rem;
+    margin: 0;
+    border-radius: 0.65rem;
+    font-size: 0.9rem;
+}
+
+.k-stat-label {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--k-muted);
+}
+
+.k-stat-value {
+    margin: 0.25rem 0 0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--k-fg);
+    word-break: break-word;
+}
+
+.k-stat-value-sm {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.k-stat-note {
+    margin: 0.25rem 0 0;
+    font-size: 0.75rem;
+    color: var(--k-faint);
+}
+
+/* --- auth / empty-state badge ---------------------------------------- */
+
+.k-auth-icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto;
+    border-radius: 1.1rem;
+    font-size: 1.4rem;
+    color: var(--k-on-brand);
+    background: linear-gradient(135deg, var(--k-brand) 0%, #ff9a5b 100%);
+    box-shadow: var(--k-glow);
+}
+
+/* --- password reveal ------------------------------------------------- */
+
+.k-password {
+    position: relative;
+    display: block;
+}
+
+.k-password-toggle {
+    position: absolute;
+    inset-inline-end: 0.35rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 0;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: var(--k-faint);
+    cursor: pointer;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.k-password-toggle:hover {
+    background: var(--k-brand-soft);
+    color: var(--k-brand);
+}
+
+.k-password-toggle .icon-eye-off {
+    display: none;
+}
+
+.k-password-toggle.is-revealed .icon-eye {
+    display: none;
+}
+
+.k-password-toggle.is-revealed .icon-eye-off {
+    display: inline-block;
+}
+
+/* --- tabs ------------------------------------------------------------ */
+
+.k-tablist {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--k-line);
+    background: var(--k-sunken);
+    scrollbar-width: none;
+}
+
+.k-tablist::-webkit-scrollbar {
+    display: none;
+}
+
+.k-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    flex: none;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--k-muted);
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s var(--k-ease);
+}
+
+.k-tab:hover {
+    color: var(--k-brand);
+    transform: translateY(-1px);
+}
+
+.k-tab.is-active {
+    background: var(--k-surface);
+    color: var(--k-brand);
+    box-shadow: var(--k-shadow-sm);
+}
+
+/* --- file grid (fileuser) -------------------------------------------- */
+
+.k-file-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 1px solid var(--k-glass-line);
+    background: var(--k-glass);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: var(--k-glass-shadow);
+    overflow: hidden;
+    transition:
+        transform 0.35s var(--k-ease),
+        box-shadow 0.35s var(--k-ease),
+        border-color 0.3s ease;
+}
+
+.k-file-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--k-brand-ring);
+    box-shadow: var(--k-shadow-lg);
+}
+
+.k-file-thumb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    background: var(--k-sunken);
+    overflow: hidden;
+}
+
+.k-file-thumb > img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--k-ease);
+}
+
+.k-file-card:hover .k-file-thumb > img {
+    transform: scale(1.07);
+}
+
+.k-file-thumb-glyph {
+    width: 42px !important;
+    height: 42px !important;
+    object-fit: contain !important;
+}
+
+.k-file-thumb-fallback {
+    grid-area: 1 / 1;
+    font-size: 1.6rem;
+    color: var(--k-faint);
+}
+
+.k-file-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: color-mix(in oklab, var(--k-ink) 55%, transparent);
+    color: #fff;
+    font-size: 1.15rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.k-file-card:hover .k-file-overlay {
+    opacity: 1;
+}
+
+.k-file-meta {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.7rem 0.8rem 0.8rem;
+}
+
+.k-file-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--k-fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.k-file-sub,
+.k-file-date {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.65rem;
+    color: var(--k-muted);
+}
+
+.k-file-sub span,
+.k-file-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.k-file-pick {
+    position: absolute;
+    top: 0.5rem;
+    inset-inline-start: 0.5rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 0.3rem;
+    border-radius: 0.6rem;
+    background: var(--k-glass-strong);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--k-shadow-sm);
+    cursor: pointer;
+}
+
+/* --- download countdown ring ----------------------------------------- */
+
+.k-ring {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--k-brand) var(--k-ring, 0%),
+        color-mix(in oklab, var(--k-line) 80%, transparent) 0
+    );
+    transition: background 0.6s linear;
+}
+
+.k-ring::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: var(--k-surface);
+}
+
+.k-ring-value {
+    position: relative;
+    z-index: 1;
+    font-size: 2.1rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--k-fg);
+}
+
+/* --- upload result boxes (up_boxes.html) ----------------------------- */
+
+.k-upresult .up-box-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--k-line);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--k-success);
+    word-break: break-word;
+}
+
+.k-upresult .up-box-title::before {
+    font-family: 'lucide';
+    font-style: normal;
+    content: '\e226'; /* circle-check */
+    font-size: 1rem;
+}
+
+.k-upbox {
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--k-line);
+    border-radius: 0.9rem;
+    background: var(--k-sunken);
+    transition: border-color 0.25s ease;
+}
+
+.k-upbox:last-child {
+    margin-bottom: 0;
+}
+
+.k-upbox:hover {
+    border-color: var(--k-brand-ring);
+}
+
+.k-upbox-danger {
+    border-color: color-mix(in oklab, var(--k-danger) 25%, transparent);
+    background: var(--k-danger-soft);
+}
+
+.k-upbox-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.k-upbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--k-muted);
+}
+
+.k-upbox-danger .k-upbox-label {
+    color: var(--k-danger);
+}
+
+.k-upbox-copy {
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    flex: none;
+    border: 1px solid var(--k-line);
+    border-radius: 0.55rem;
+    background: var(--k-surface);
+    color: var(--k-muted);
+    cursor: pointer;
+    transition:
+        transform 0.2s var(--k-ease),
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.k-upbox-copy:hover {
+    transform: translateY(-2px);
+    border-color: var(--k-brand);
+    color: var(--k-brand);
+}
+
+.k-upbox-input {
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--k-line);
+    border-radius: 0.65rem;
+    background: var(--k-surface);
+    color: var(--k-fg-soft);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    direction: ltr;
+    text-align: start;
+    resize: vertical;
+    word-break: break-all;
+}
+
+.k-upbox-input:focus {
+    outline: none;
+    border-color: var(--k-brand);
+    box-shadow: 0 0 0 3px var(--k-brand-soft);
+}
+
+.k-upbox-preview {
+    display: block;
+    position: relative;
+    margin-bottom: 0.75rem;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    background: var(--k-surface);
+}
+
+.k-upbox-preview img {
+    display: block;
+    width: 100%;
+    max-height: 15rem;
+    object-fit: contain;
+    transition: transform 0.5s var(--k-ease);
+}
+
+.k-upbox-preview:hover img {
+    transform: scale(1.03);
+}
+
+.k-upbox-preview-zoom {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1.2rem;
+    background: color-mix(in oklab, var(--k-ink) 45%, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.k-upbox-preview:hover .k-upbox-preview-zoom {
+    opacity: 1;
+}
