@@ -2026,7 +2026,9 @@ html:not(.k-js) [data-reveal] {
 }
 
 /* price / money emphasis */
-.k-money {
+.k-money,
+.k-table tbody td.k-money,
+.k-table tbody th.k-money {
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     color: var(--k-brand);

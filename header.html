@@ -16,8 +16,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
 
-    <link rel="stylesheet" href="{STYLE_PATH}css/lucide.css">
-    <link rel="stylesheet" href="{STYLE_PATH}css/style.css">
+    <link rel="stylesheet" href="{STYLE_PATH}css/lucide.css?v=1.2">
+    <link rel="stylesheet" href="{STYLE_PATH}css/style.css?v=1.2">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
@@ -38,6 +38,10 @@
     </script>
 
     <style type="text/tailwindcss">
+        /* The browser build only auto-prepends this when the block contains
+           no @import at all; keep it explicit so the entry point is stable. */
+        @import 'tailwindcss';
+
         /* class-based dark mode, toggled on <html> */
         @custom-variant dark (&:where(.dark, .dark *));
 
