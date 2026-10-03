@@ -42,7 +42,7 @@
                     <!-- account -->
                     <div role="tabpanel" data-tab-panel="tab-general">
                         <div class="mb-5 flex items-center gap-4">
-                            <img src="{user_avatar}" alt="" class="h-14 w-14 rounded-2xl object-cover" style="box-shadow: 0 0 0 3px var(--k-brand-ring);">
+                            <img src="{user_avatar}" alt="" class="h-14 w-14 rounded-2xl object-cover" onerror="this.onerror=null;this.src='{STYLE_PATH}images/user_avater.png';" style="box-shadow: 0 0 0 3px var(--k-brand-ring);">
                             <div class="min-w-0">
                                 <p class="truncate text-base font-bold text-fg">{name}</p>
                                 <p class="truncate text-xs text-faint">{mail}</p>
@@ -104,7 +104,7 @@
                     <!-- avatar -->
                     <div role="tabpanel" data-tab-panel="tab-avatar" hidden>
                         <div class="flex flex-col items-center gap-4 text-center">
-                            <img src="{user_avatar}" alt="" class="h-24 w-24 rounded-3xl object-cover" style="box-shadow: 0 0 0 4px var(--k-brand-ring);">
+                            <img src="{user_avatar}" alt="" class="h-24 w-24 rounded-3xl object-cover" onerror="this.onerror=null;this.src='{STYLE_PATH}images/user_avater.png';" style="box-shadow: 0 0 0 4px var(--k-brand-ring);">
                             <div class="k-prose text-sm">{link_avater}</div>
                         </div>
                     </div>

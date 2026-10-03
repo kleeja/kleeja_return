@@ -592,7 +592,7 @@
                     <div class="relative" data-dropdown>
                         <button type="button" class="k-userchip" data-dropdown-trigger aria-expanded="false" aria-haspopup="true">
                             <IF NAME="user_is">
-                                <img src="{user_avatar}" alt="" class="h-7 w-7 shrink-0 rounded-full object-cover">
+                                <img src="{user_avatar}" alt="" class="h-7 w-7 shrink-0 rounded-full object-cover" onerror="this.onerror=null;this.src='{STYLE_PATH}images/user_avater.png';">
                             <ELSE>
                                 <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full text-brand" style="background: var(--k-brand-soft);">
                                     <i class="icon-user text-sm"></i>
